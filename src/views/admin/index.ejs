@@ -1,0 +1,342 @@
+<!--<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin || Menús Fácil</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="csrf-token" content="VFf91s92nvFojDzqoDRAg8IgyRmT14h4v9CdxEjg">
+  <link href="http://menusfacil.com/admin/css/app.css" type="text/css" rel="stylesheet" media="screen,projection">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <link rel="icon" href="http://menusfacil.com/admin/img/favicon.png" sizes="32x32">
+  <style media="screen">
+    .img-pago{
+        width: 280px;
+        margin: 0 auto;
+    }
+  @media  screen and (min-width:320px) {
+    .img-pago{
+        /* width: 300px; */
+    }
+  }
+  </style>
+</head>
+<body>
+      <div id="dash" v-cloak>
+  
+    <ul id="slide-out" class="sidenav">
+              <li>
+          <div class="user-view">
+            <a><img class="circle" width="190" src="http://www.menusfacil.com/img/logo2.png"></a>
+            <a href="http://menusfacil.com/cliente/menus-facil" target="_blank"><span class="gray-text name">VISTA PÚBLICA</span></a>
+            <a href="#"><span class="gray-text email" style="text-transform:uppercase;"><%= user.local.email %></span></a>
+          </div>
+        </li>
+           
+      <li><div class="divider"></div></li>
+        <li><a class="sidenav-close" href="#!">Cerrar<i class="material-icons">keyboard_backspace</i></a></li>
+      <li><div class="divider"></div></li>
+      <li><a href="/logout" >Cerrar Sesión<i class="material-icons">power_settings_new</i></a></li>
+    </ul>
+    <div class="navbar-fixed">
+      <nav>
+        <div class="nav-wrapper" style="background-color:#2a2730">
+          <div href="#" data-target="slide-out" style="cursor: pointer;" class="sidenav-trigger" id="menuLateral"><i class="material-icons large">menu</i></div>
+            <a class="brand-logo center">
+              <img src="http://www.menusfacil.com/admin/img/logo-menusfacil.svg" alt="Menus Facil Logo" width="100px" class="imagen-logo">
+            </a>
+            <ul class="right hide-on-med-and-down">
+            <li>
+              <a class="dropdown-item" href="/logout"></a>
+                  <i class="material-icons">power_settings_new</i>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  <div class="row">
+  <div class="col l8 s12">
+    <div class="card">
+      <div class="card-image waves-effect waves-block waves-light" style="background-color:#66181a">
+          <h2 class="center-align titulo-tabla">TABLA DE MENÚS</h2>
+          <a class="btn-floating btn-move-up waves-effect waves-light right tooltipped" data-position="bottom" data-tooltip="Crear Menú" style="margin: 10px"><i class="large material-icons activator">add</i></a>
+          <a href="http://menusfacil.com/descarga/menus" target="_blank" style="margin: 10px" class="btn-floating btn-move-up waves-effect waves-light right tooltipped" data-position="bottom" data-tooltip="Ver PDF"><i class="material-icons">file_download</i></a>
+      </div>
+      <div class="card-content" style="overflow:scroll;height:450px;background: linear-gradient(#ffffff, #e5e5e5)">
+        <table id="tablaMenus" class="centered">
+<thead>
+<tr>
+    <th>Nombre</th>
+    <th>Descripción</th>
+    <th>Precio</th>
+    <th>Estado</th>
+    <th colspan="4">Opciones</th>
+</tr>
+</thead>
+  <tbody>
+  <tr v-for="menu in menus" v-if="menu.activo == 1">
+
+    <td>{{ menu.nombre }}</td>
+    <td>{{ menu.descripcion }}</td>
+    <td>$ {{ new Intl.NumberFormat().format(menu.precio) }}</td>
+    <td>
+      <div class="col s12 m8 l9">
+        <div class="switch">
+          <label>
+            <input type="checkbox" v-model="menu.estado" value="menu.estado" checked="1" v-on:click="updateMenu(menu, 1)">
+            <span class="lever" style="background-color:#E88A10"></span>
+          </label>
+        </div>
+      </div>
+    </td>
+    <td>
+      <a href="#actualizarMenu" class="btn-floating blue modal-trigger" v-on:click="llenarModal(menu)">
+        <i class="material-icons">edit</i>
+      </a>
+    </td>
+    <td>
+      <a v-on:click.prevent="updateEstado(menu)" class="btn-floating red"><i class="material-icons">delete</i></a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+      </div>
+      <div class="card-reveal">
+        <span class="card-title grey-text text-darken-4 center-align">Crear Nuevo Menú<i class="material-icons right">close</i></span>
+        <form class="col s12 m12" v-on:submit.prevent="addMenu">
+	<div class="row">
+		<div class="input-field col s12">
+			<i class="mdi-editor-border-color prefix"></i>
+			<input id="nombre" type="text" v-model="add.nombre" autocomplete="off">
+			<span style="color:#c91e04">{{ noti.nombre }}</span>
+		<label for="nombre" data-error="" data-success="right">Nombre</label>
+		</div>
+		<div class="input-field col s12">
+			<i class="mdi-content-filter-list prefix"></i>
+			<textarea class="materialize-textarea" id="descripcion" v-model="add.descripcion" autocomplete="off"></textarea>
+			<span style="color:#c91e04">{{ noti.descripcion }}</span>
+			<label for="descripcion">Descripción</label>
+		</div>
+	</div>
+	<div class="row">
+		<div class="input-field col s12">
+			<i class="mdi-editor-attach-money prefix"></i>
+			<input id="precio" type="text" v-model="add.precio" autocomplete="off">
+			<span style="color:#c91e04">{{ noti.precio }}</span>
+			<label for="precio">Precio</label>
+		</div>
+	</div>
+	<div id="input-switches1" class="section">
+		<div class="row section">
+			<div class="col s12 m8 l9">
+				<div class="switch">
+					¿Es Adición? :
+					<label>
+					NO
+					<input type="checkbox" v-model="add.adicional">
+					<span class="lever"></span> SI
+					</label>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="input-switches" class="section">
+		<div class="row">
+			<div class="col s12 m8 l9">
+				<div class="switch">
+					Disponible:
+					<label>
+					NO
+					<input type="checkbox" v-model="add.estado">
+					<span class="lever"></span> SI
+					</label>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col s12 offset-s8">
+	<button class="btn" type="submit" name="action">Guardar
+		<i class="mdi-content-send right"></i> </button>
+	</div>
+</form>
+      </div>
+    </div>
+  </div>
+  
+  <div class="col l4 s12">
+    <div class="card" style="height:520px;background-color: #2a2730">
+	<div class="card-image">
+		<a href="http://menusfacil.com/descarga/pedidos" target="_blank" class="btn-floating halfway-fab waves-effect waves-light tooltipped" data-position="button" data-tooltip="Ver o imprimir pedidos" style="background-color:#E88A10 !important;"><i class="material-icons">file_download</i></a>
+		
+		<div class="card-content">
+			<h2 class="titulo-pedidos">Ultimas Ordenes</h2>
+			<p style="color: white;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;" class="lista-menus" v-model="pedidos" v-for="(pedido, index) in pedidos" v-if="index < 10">{{momentjs(pedido.created_at)}}, {{pedido.nombre_pedido}}, {{pedido.nombre}}<em></em></p>
+		</div>
+	</div>
+</div>
+  </div>
+</div>
+  <div id="card-stats">
+    <div class="row">
+        <div class="col s12 m6 l3">
+            <div class="card">
+                <div class="card-content white-text" style="background-color:#66181a">
+                    <p class="card-stats-title"><i class="mdi-social-group-add"></i> Menus Disponibles</p>
+                    <h4 class="card-stats-number">{{ total }}</h4>
+                    <p class="card-stats-compare"><i class="material-icons tiny">access_time</i> <span class="green-text text-lighten-5">En tiempo real</span>
+                    </p>
+                </div>
+                <div class="card-action darken-2" style="background-color:#66181a">
+                    <div id="clients-bar" class="center-align"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m6 l3">
+            <div class="card">
+                <div class="card-content lighten-1 white-text" style="background-color:#E88A10">
+                    <p class="card-stats-title"><i class="mdi-editor-insert-drive-file"></i> Ordenes Hoy</p>
+                    <h4 class="card-stats-number" v-model="pedidos">{{pedidos.length}}</h4>
+                    <p class="card-stats-compare"><i class="mdi-hardware-keyboard-arrow-down"></i><span class="deep-purple-text text-lighten-5">{{ fecha }}</span>
+                    </p>
+                </div>
+                <div class="card-action darken-2" style="background-color:#E88A10">
+                    <div id="invoice-line" class="center-align"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m6 l3">
+            <div class="card">
+                <div class="card-content white-text" style="background-color:#66181a">
+                    <p class="card-stats-title"><i class="mdi-action-trending-up"></i> Vendido Hoy</p>
+                    <h4 class="card-stats-number">${{ number_format(vendidosdia) }}</h4>
+                    <p class="card-stats-compare"><i class="material-icons tiny">access_time</i> <span class="blue-grey-text text-lighten-5">En tiempo real</span>
+                    </p>
+                </div>
+                <div class="card-action darken-2" style="background-color:#66181a">
+                    <div id="profit-tristate" class="center-align"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col s12 m6 l3">
+            <div class="card">
+                <div class="card-content white-text" style="background-color:#E88A10">
+                    <p class="card-stats-title"><i class="mdi-editor-attach-money"></i>Más vendido</p>
+                    <h4 class="card-stats-number" style="font-size:25px;">{{ masvendido }}</h4>
+                    <p class="card-stats-compare"><i class="mdi-hardware-keyboard-arrow-up"></i>{{cantidad_vendida}} <span class="purple-text text-lighten-5">Ventas</span>
+                    </p>
+                </div>
+                <div class="card-action darken-2" style="background-color:#E88A10">
+                    <div id="sales-compositebar" class="center-align"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  <!- Modal editar menu 
+  <div id="actualizarMenu" class="modal modal-fixed-footer" >
+    <div class="modal-content">
+    <h4 class="center-align">Editar Menú</h4>
+      <div class="row">
+      <form class="col s12" @submit.prevent="updateMenu(update)">
+        <div class="row">
+          <div class="input-field col s6">
+            <i class="mdi-action-add-shopping-cart small"></i>
+            <input id="nobre" type="text" class="validate" data-length="10" v-model="update.nombre">
+          </div>
+          <div class="input-field col s6">
+            <i class="mdi-editor-attach-money small"></i>
+            <input id="precio" type="text" class="validate" v-model="update.precio">
+          </div>
+          <div class="input-field col s12">
+              <i class="mdi-maps-restaurant-menu small"></i>
+              <textarea id="descripcion" class="materialize-textarea" data-length="120" v-model="update.descripcion"></textarea>
+          </div>
+          <div id="input-switches1" class="section">
+        		<div class="row section">
+        			<div class="col s12 m8 l9">
+        				<div class="switch">
+        					¿Es Adición? :
+        					<label>
+        					NO
+        					<input type="checkbox" v-model="update.adicional">
+        					<span class="lever"></span> SI
+        					</label>
+        				</div>
+        			</div>
+        		</div>
+        	</div>
+
+          <div class="col s12 m8 l9">
+            <div class="switch">
+              Disponible :
+              <label>
+                NO
+                <input type="checkbox" v-model="update.estado">
+                <span class="lever"></span> SI
+              </label>
+            </div>
+          </div>
+        </div>
+         <button class="btn waves-effect waves-light grey darken-4" type="submit">Guardar
+      </button>
+      </form>
+    </div>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir</a>
+    </div>
+  </div>
+  
+  </div>
+    <!-- Botones flotantes con opciones 
+  <div class="fixed-action-btn" style="bottom: 50px; right: 19px;">
+    <a class="btn-floating btn-large">
+      <i class="material-icons" style="background-color:#66181a;">add</i>
+    </a>
+    <ul>
+      
+      <li><a href="http://menusfacil.com/historico/menus/menus-facil" target="_blank"class="btn-floating green tooltipped" data-position="left" data-tooltip="Historico menús"><i class="material-icons">content_paste</i></a></li>
+    </ul>
+  </div>
+</div>
+  <footer class="page-footer" style="background-color:#2a2730">
+      <div class="footer-copyright">
+          <div class="container">
+    <span class="left"> Desarrollado por <a class="grey-text text-lighten-4" href="https://agenciawebbogota.com/" target="_blank">Agencia Web Bogotá</a></span>
+            <span class="right">Todos los derechos reservados</span>
+          </div>
+      </div>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+  <script src="admin/js/main.js"></script>
+</body>
+</html>
+  -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Dashboard</title>
+</head>
+<body>
+  <h1>Aqui va el Dashboard, el estado de la empresa es  <%= user.local.tipo_empresa %></h1>
+</body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  //var io = io( serverUri, {'transports': ['websocket', 'polling']});  
+  var socket = io.connect('http://192.168.0.12:3000');
+  // Pasando variabres desde ejs
+  let user = <%- JSON.stringify(user) %>;
+  // Emitir eventos
+  socket.emit('conectado', { user });
+
+  //Escuchar eventos
+  socket.on('user-connected', (user)=>{
+    alert('Un usario se ha conectado a la app.');  
+  })
+</script>
+</html>
