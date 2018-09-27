@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
       type: String,
       default: 'GRATIS' // PLAN-1, PLAN-2, PLAN-3
     },
-    partnert_id:String,
+    partnert:String,
   },
   facebook: {
     id: String,

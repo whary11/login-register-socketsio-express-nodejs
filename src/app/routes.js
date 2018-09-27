@@ -1,6 +1,6 @@
 const User = require('../app/models/user');
+const Menu = require('../app/models/menu');
 module.exports = (app, passport, io) => {
-
 	// index routes
 	app.get('/', (req, res) => {
 		res.render('index');
@@ -39,12 +39,35 @@ module.exports = (app, passport, io) => {
 		});
 	});
 	//Menus
-	app.get('/api/menus', (req, res)=>{
-		User.find().then((docs)=>{
-			return res.json(docs)
-		}).catch((error)=>{
-			return res.json(error)
+	app.get('/api/menus',isLoggedIn, (req, res)=>{
+		Menu.find()
+			.populate({path:'user', select:'local.nombre _id',} )
+			.exec((error, menus)=>{
+				console.log(req.user);
+				
+				if (error) {
+					return handleError(err);
+				}
+				return res.json(menus)
+			});
 		})
+
+		// Proteger esta ruta despuès que se hagan todas las pruebas de seguridad
+	app.post('/menus',(req, res)=>{
+		let menu = new Menu({
+			nombre:req.body.nombre,
+			descripcion:req.body.descripcion,
+			precio:req.body.precio,
+			user:req.body.user_id,
+		});
+		menu.save(function (err) {
+			if (err){
+				return handleError(err);
+			}else{			
+				return menu;
+			}
+		})
+		return res.json(menu)
 	})
 
 	// logout
