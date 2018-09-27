@@ -18,10 +18,10 @@ module.exports = (app, passport, io) => {
 		res.render('index');
 	});
 	//login view
-	app.get('/login', (req, res) => {
+	app.get('/login',csrfProtection, (req, res) => {
 		res.render('login.ejs', {
 			message: req.flash('loginMessage'),
-			
+			csrfToken: req.csrfToken()			
 		});
 	});
 	app.post('/login', passport.authenticate('local-login', {
