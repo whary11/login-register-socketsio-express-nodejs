@@ -1,5 +1,5 @@
-const User = require('../app/models/user');
-const Menu = require('../app/models/menu');
+const User = require('./models/User');
+const Menu = require('../app/models/Menu');
 const csurf = require('csurf')
 const csrfProtection = csurf({ cookie: true })
 
