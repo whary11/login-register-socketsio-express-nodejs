@@ -13,8 +13,8 @@ new Vue({
 			nombre:'',
 			descripcion:'',
 			precio:'',
-			adicional:'',
-			estado:1,
+			adicional:false,
+			estado:true,
 		},
 		update:{
 			nombre:'',
@@ -50,7 +50,23 @@ new Vue({
 	
 		},
 		addMenu:function(){
-		
+			if (this.add.nombre.length < 5) {
+				this.noti.nombre = "Escribe un nombre válido"
+			}else if (this.add.descripcion.length < 10) {
+				this.noti.nombre = ""
+				this.noti.descripcion = "La descripción debe ser mayor a 10 y menor a 50 caracteres"				
+			}else if (this.add.descripcion.length > 50) {
+				this.noti.nombre = ""
+				this.noti.descripcion = "La descripción debe ser menor a 50 caracteres"				
+			}else if (this.add.precio.length < 2+1) {
+				this.noti.nombre = ""
+				this.noti.descripcion = ""
+				this.noti.precio = "Escribe un valor válido"
+			}
+
+			console.log(this.add);
+			
+
 		},
 		updateMenu:function(menu, q){
 			
