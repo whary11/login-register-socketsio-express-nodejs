@@ -6,7 +6,7 @@ const ordenSchema = new mongoose.Schema({
     nombre:String,
     correo:String,
     direccion:String,
-    telefono:String,
+    telefono:Number,
     observacion:String,
     menus:[{ type: Schema.Types.ObjectId, ref: 'Menu' }],
     user:[{ type: Schema.Types.ObjectId, ref: 'User' }],

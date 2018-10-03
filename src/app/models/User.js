@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 const bcrypt = require('bcrypt-nodejs');
 
 const userSchema = new mongoose.Schema({
@@ -14,7 +15,16 @@ const userSchema = new mongoose.Schema({
       type: String,
       default: 'GRATIS' // PLAN-1, PLAN-2, PLAN-3
     },
-    partnert:String,
+    tipo_negocio:{
+      type:String,
+      default:'DOMICILIOS' //FIJO
+    },
+      created_at:{
+      type:Date,
+      default:new Date()
+    },
+    sucursales:[{ type: Schema.Types.ObjectId, ref: 'User' }],
+    partnert:[{ type: Schema.Types.ObjectId, ref: 'Parnert' }],
   },
   facebook: {
     id: String,

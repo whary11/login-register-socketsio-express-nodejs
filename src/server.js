@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 var server = require('http').Server(app);
 var io = require('socket.io')(server, {'transports': ['websocket', 'polling']});
+//process.env.TZ = "America/Bogota";
 
 const mongoose = require('mongoose');
 const passport = require('passport');

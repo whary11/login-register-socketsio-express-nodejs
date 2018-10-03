@@ -1,0 +1,33 @@
+<footer class="page-footer" style="background-color:#2a2730">
+    <div class="footer-copyright">
+        <div class="container">
+  <span class="left"> Desarrollado por <a class="grey-text text-lighten-4" href="https://agenciawebbogota.com/" target="_blank">Agencia Web Bogotá</a></span>
+          <span class="right">Todos los derechos reservados</span>
+        </div>
+    </div>
+</footer>
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  //var io = io( serverUri, {'transports': ['websocket', 'polling']});  
+  var socket = io.connect('http://192.168.0.12:3000');
+  // Pasando variabres desde ejs
+  //let user = <%- JSON.stringify(user) %>;
+  var user = {
+     nombre: "Luis Fernando Raga"
+  }
+  // Emitir eventos
+  socket.emit('conectado', { user });
+
+  //Escuchar eventos
+  socket.on('user-connected', (user)=>{
+    //alert('Un usario se ha conectado a la app.');
+    alert(user.nombre);
+    
+  })
+</script>
+<script src="admin/js/main.js"></script>
+</html>
+

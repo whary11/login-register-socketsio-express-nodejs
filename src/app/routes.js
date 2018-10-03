@@ -43,18 +43,16 @@ module.exports = (app, passport, io) => {
 		
 	}));
 	//Dashboard
-	app.get('/dashboard', isLoggedIn, (req, res) => {
+	app.get('/dashboard', (req, res) => {
 		res.render('admin/index', {
 			user: req.user
 		});
 	});
 	//Menus
-	app.get('/api/menus',isLoggedIn, (req, res)=>{
-		Menu.find()
-			.populate({path:'user', select:'local.nombre _id',} )
+	app.get('/api/menus', (req, res)=>{
+		User.find()
+			//.populate({path:'user', select:'local.nombre _id',} )
 			.exec((error, menus)=>{
-				console.log(req.user);
-				
 				if (error) {
 					return handleError(err);
 				}
@@ -86,7 +84,6 @@ module.exports = (app, passport, io) => {
 };
 
 //////////////// Midellwares ////////////////////////
-
 /////////Validar si los usuarios està autenticados en las rutas que se utilice
 
 function isLoggedIn (req, res, next) {
