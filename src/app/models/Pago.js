@@ -22,6 +22,8 @@ const pagoSchema = new mongoose.Schema({
         type:Date,
         default:new Date()
     }
-})
+},{
+    timestamps:{createdAt:'created_at'}
+  })
 
 module.exports = mongoose.model('Pago', pagoSchema);

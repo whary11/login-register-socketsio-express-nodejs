@@ -7,10 +7,12 @@ const partnertSchema = new mongoose.Schema({
     correo:String,
     usuario:{
         type:String,
-        default:´@${this.nombre}´
     }
     //precio:String,
     //user:[{ type: Schema.Types.ObjectId, ref: 'User' }],
-})
+},
+{
+    timestamps:{createdAt:'created_at'}
+  })
 
 module.exports = mongoose.model('Partnert', menuSchema);

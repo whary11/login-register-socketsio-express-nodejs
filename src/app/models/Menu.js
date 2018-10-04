@@ -7,6 +7,8 @@ const menuSchema = new mongoose.Schema({
     descripcion:String,
     precio:String,
     user:[{ type: Schema.Types.ObjectId, ref: 'User' }],
-})
+},{
+    timestamps:{createdAt:'created_at'}
+  })
 
 module.exports = mongoose.model('Menu', menuSchema);

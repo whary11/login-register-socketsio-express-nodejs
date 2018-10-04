@@ -50,6 +50,7 @@ new Vue({
 	
 		},
 		addMenu:function(){
+			
 			if (this.add.nombre.length < 5) {
 				this.noti.nombre = "Escribe un nombre válido"
 			}else if (this.add.descripcion.length < 10) {
@@ -58,13 +59,23 @@ new Vue({
 			}else if (this.add.descripcion.length > 50) {
 				this.noti.nombre = ""
 				this.noti.descripcion = "La descripción debe ser menor a 50 caracteres"				
-			}else if (this.add.precio.length < 2+1) {
+			}else if (!/^([0-9])*$/.test(this.add.precio)) {
 				this.noti.nombre = ""
 				this.noti.descripcion = ""
 				this.noti.precio = "Escribe un valor válido"
+			}else if (this.add.precio.length < 2) {
+				this.noti.nombre = ""
+				this.noti.descripcion = ""
+				this.noti.precio = "Escribe un valor válido"
+			}else{
+				this.noti.nombre = ""
+				this.noti.descripcion = ""
+				this.noti.precio = ""
+				// Guardar en la base de datos con axios
+				alert('Los datos están listos. '+this.add.precio.length)
 			}
 
-			console.log(this.add);
+			 
 			
 
 		},

@@ -44,6 +44,9 @@ const userSchema = new mongoose.Schema({
     email: String,
     password: String,
   }
+},
+{
+  timestamps:{createdAt:'created_at'}
 });
 
 // generating a hash

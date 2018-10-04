@@ -10,6 +10,8 @@ const ordenSchema = new mongoose.Schema({
     observacion:String,
     menus:[{ type: Schema.Types.ObjectId, ref: 'Menu' }],
     user:[{ type: Schema.Types.ObjectId, ref: 'User' }],
-})
+},{
+    timestamps:{createdAt:'created_at'}
+  })
 
 module.exports = mongoose.model('Orden', ordenSchema);
