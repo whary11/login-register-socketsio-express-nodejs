@@ -7,15 +7,15 @@
         <div class="row">
           <div class="input-field col s6">
             <i class="mdi-action-add-shopping-cart small"></i>
-            <input id="nobre" type="text" class="validate" data-length="10" v-model="update.nombre">
+            <input id="nobre" type="text" class="validate" data-length="10" model="update.nombre">
           </div>
           <div class="input-field col s6">
             <i class="mdi-editor-attach-money small"></i>
-            <input id="precio" type="text" class="validate" v-model="update.precio">
+            <input id="precio" type="text" class="validate" model="update.precio">
           </div>
           <div class="input-field col s12">
               <i class="mdi-maps-restaurant-menu small"></i>
-              <textarea id="descripcion" class="materialize-textarea" data-length="120" v-model="update.descripcion"></textarea>
+              <textarea id="descripcion" class="materialize-textarea" data-length="120" model="update.descripcion"></textarea>
           </div>
           <div id="input-switches1" class="section">
         		<div class="row section">
@@ -24,7 +24,7 @@
         					¿Es Adición? :
         					<label>
         					NO
-        					<input type="checkbox" v-model="update.adicional">
+        					<input type="checkbox" model="update.adicional">
         					<span class="lever"></span> SI
         					</label>
         				</div>
@@ -37,7 +37,7 @@
               Disponible :
               <label>
                 NO
-                <input type="checkbox" v-model="update.estado">
+                <input type="checkbox" model="update.estado">
                 <span class="lever"></span> SI
               </label>
             </div>
@@ -51,4 +51,3 @@
     <div class="modal-footer">
       <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir</a>
     </div>
-  </div>

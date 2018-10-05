@@ -2,22 +2,22 @@
 	<div class="row">
 		<div class="input-field col s12">
 			<i class="mdi-editor-border-color prefix"></i>
-			<input id="nombre" type="text" v-model="add.nombre" autocomplete="off">
+			<input id="nombre" type="text" model="add.nombre" autocomplete="off">
 			<label for="nombre" data-error="" data-success="right">Nombre</label>
-			<span style="color:#c91e04">{{ noti.nombre }}</span>
+			<span style="color:#c91e04"><%/* {{ noti.nombre }}*/%></span>
 		</div>
 		<div class="input-field col s12">
 			<i class="mdi-content-filter-list prefix"></i>
-			<textarea class="materialize-textarea" id="descripcion" v-model="add.descripcion" data-length="50" autocomplete="off"></textarea>
-			<span style="color:#c91e04">{{ noti.descripcion }}</span>
+			<textarea class="materialize-textarea" id="descripcion" model="add.descripcion" data-length="50" autocomplete="off"></textarea>
+			<span style="color:#c91e04"><%/* {{ noti.descripcion }}*/%></span>
 			<label for="descripcion">Descripción</label>
 		</div>
 	</div>
 	<div class="row">
 		<div class="input-field col s12">
 			<i class="mdi-editor-attach-money prefix"></i>
-			<input id="precio" type="text" v-model="add.precio" autocomplete="off">
-			<span style="color:#c91e04">{{ noti.precio }}</span>
+			<input id="precio" type="text" model="add.precio" autocomplete="off">
+			<span style="color:#c91e04"><%/* {{ noti.precio }}*/%></span>
 			<label for="precio">Precio</label>
 		</div>
 	</div>
@@ -28,7 +28,7 @@
 					¿Es Adición? :
 					<label>
 						NO
-						<input type="checkbox" v-model="add.adicional">
+						<input type="checkbox" model="add.adicional">
 						<span class="lever"></span> SI
 					</label>
 				</div>
@@ -42,7 +42,7 @@
 					Disponible:
 					<label>
 						NO
-						<input type="checkbox" v-model="add.estado">
+						<input type="checkbox" model="add.estado">
 						<span class="lever"></span> SI
 					</label>
 				</div>

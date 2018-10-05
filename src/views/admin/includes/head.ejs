@@ -4,19 +4,40 @@
   <meta charset="UTF-8">
   <title>Node and MongoDB || Admin || Menús Fácil</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <link href="http://menusfacil.com/admin/css/app.css" type="text/css" rel="stylesheet" media="screen,projection">
+  <!-- Compiled and minified CSS -->
+  <link href="admin/css/app.min.css" rel="stylesheet">    
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-  <style media="screen">
-    .img-pago{
-        width: 280px;
-        margin: 0 auto;
-    }
-  @media  screen and (min-width:320px) {
-    .img-pago{
-        /* width: 300px; */
-    }
-  }
-  </style>
 </head>
 <body>
+  <div id="dash">
+    <ul id="slide-out" class="sidenav">
+    <li>
+    <div class="user-view">
+        <a><img class="circle" width="190" src="http://www.menusfacil.com/img/logo2.png"></a>
+        <a href="http://menusfacil.com/cliente/menus-facil" target="_blank"><span class="gray-text name">Menús Fácil</span></a>
+        <a href="#"><span class="gray-text email">whary11@gmail.com</span></a>
+    </div>
+    </li> 
+    <li><div class="divider"></div></li>
+    <li><a class="sidenav-close" href="#!">Cerrar<i class="material-icons">keyboard_backspace</i></a></li>
+    <li><div class="divider"></div></li>
+    <li><a href="/logout" >Cerrar Sesión<i class="material-icons">power_settings_new</i></a></li>
+  </ul>
+  <div class="navbar-fixed">
+    <nav>
+    <div class="nav-wrapper" style="background-color:#2a2730">
+        <div href="#" data-target="slide-out" style="cursor: pointer;" class="sidenav-trigger" id="menuLateral"><i class="material-icons large">menu</i></div>
+        <a class="brand-logo center">
+            <img src="admin/img/logo-menusfacil.svg" alt="Menus Facil Logo" width="100px" class="imagen-logo">
+        </a>
+        <ul class="right hide-on-med-and-down">
+        <li>
+            <a class="dropdown-item" href="/logout">
+                <i class="material-icons">power_settings_new</i>
+            </a>
+        </li>
+        </ul>
+    </div>
+    </nav>
+  </div>
