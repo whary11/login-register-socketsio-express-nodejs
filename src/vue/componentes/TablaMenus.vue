@@ -31,7 +31,7 @@
                         </a>
                     </td>
                     <td>
-                        <a v-on:click.prevent="updateEstado(menu)" class="btn-floating red"><i class="material-icons">delete</i></a>
+                        <a v-on:click.prevent="eliminarMenu(menu)" class="btn-floating red"><i class="material-icons">delete</i></a>
                     </td>
                 </tr>
             </tbody>
@@ -124,6 +124,10 @@ export default {
         actualizarMenu(){
             // despues de actualizar se debe reescribir la propiedad de menus
             alert(`Ya puedes actualizar el menú ${this.update.nombre}`)
+        },
+        eliminarMenu(menu){
+            this.menus.splice(menu, 1);
+            M.toast({html: 'Menú eliminado.', outDuration:1000});
         }
     }
 }

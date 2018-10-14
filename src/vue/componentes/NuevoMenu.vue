@@ -3,18 +3,18 @@
         <div class="row">
             <div class="input-field col s12">
                 <i class="mdi-editor-border-color prefix"></i>
-                <input id="nombre" type="text" v-model="add.nombre" autocomplete="off">
+                <input @keyup="validarCampo('nombre')" id="nombre" type="text" v-model="add.nombre" autocomplete="off">
                 <label for="nombre" data-error="" data-success="right">Nombre</label>
-                <div class="col s8 noti">
+                <div class="col s10 noti">
                     <span v-text="noti.nombre"></span>                
                 </div>
             </div>
             <div class="input-field col s12">
                 <i class="mdi-content-filter-list prefix"></i>
-                <textarea class="materialize-textarea" id="descripcion" v-model="add.descripcion" data-length="50" autocomplete="off"></textarea>
+                <textarea @keyup="validarCampo('descripcion')" class="materialize-textarea" id="descripcion" v-model="add.descripcion" data-length="50" autocomplete="off"></textarea>
                 <span class="noti"></span>
                 <label for="descripcion">Descripción</label>
-                <div class="col s8 noti">
+                <div class="col s10 noti">
                     <span v-text="noti.descripcion"></span>                
                 </div>
             </div>
@@ -22,10 +22,10 @@
         <div class="row">
             <div class="input-field col s12">
                 <i class="mdi-editor-attach-money prefix"></i>
-                <input id="precio" type="text" v-model="add.precio" autocomplete="off">
+                <input id="precio" @keyup="validarCampo('precio')" type="text" v-model="add.precio" autocomplete="off">
                 <span style="color:#c91e04"></span>
                 <label for="precio">Precio</label>
-                <div class="col s8 noti">
+                <div class="col s10 noti">
                     <span v-text="noti.precio"></span>                
                 </div>
             </div>
@@ -83,9 +83,9 @@ export default {
                 adicional:false
             },
             noti:{
-                nombre:'El nombre no es correcto',
-                descripcion:'La descripción no es correcta',
-                precio:'El precio no es correcto',
+                nombre:'',
+                descripcion:'',
+                precio:'',
                 estado: true,
                 adicional:false
             }
@@ -95,6 +95,35 @@ export default {
         addMenu(){
             alert(this.add.nombre)
              // Guardar el menú y notificar al componente TablaMenus con el menú agregado sin nececidad de hacer una nueva petición.
+        },
+        validarCampo(campo){
+            if(campo === 'nombre'){
+                if (this.add.nombre.trim().length < 4) {
+                    this.noti.nombre = 'El nombre no puede ser menor a 4 caracteres.'
+                }else{
+                    this.noti.nombre = ''
+                }
+            }else if (campo === 'descripcion') {
+                if (this.add.descripcion.trim().length > 81) {
+                    this.noti.descripcion = 'La descripción no puede ser mayor a 81 caracteres.'
+                }else{
+                    this.noti.descripcion = ''
+                }
+            }else if (campo === 'precio') {
+                if (!this.validarSiNumero(this.add.precio)) {
+                    this.noti.precio = 'El número no es correcto.'
+                }else{
+                    this.noti.precio = ''
+                }
+            }  
+        },
+        validarSiNumero(numero){
+            var RE = /^\d*\.?\d*$/;
+            if (RE.test(numero)) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 }
@@ -102,6 +131,7 @@ export default {
 <style>
     .noti{
          color:#c91e02;
+         font-size: 10px;
          margin-left: 4% !important;
     }
 </style>
