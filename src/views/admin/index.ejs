@@ -1,103 +1,45 @@
-<%- include('includes/head') -%>
-  <div class="row">
-    <div class="col l8 s12">
-      <div class="card">
-        <div class="card-image waves-effect waves-block waves-light" style="background-color:#66181a">
-            <h2 class="center-align titulo-tabla">TABLA DE MENÚS</h2>
-            <a class="btn-floating btn-move-up waves-effect waves-light right tooltipped" data-position="bottom" data-tooltip="Crear Menú" style="margin: 10px"><i class="large material-icons activator">add</i></a>
-            <a href="#!" style="margin: 10px" class="btn-floating btn-move-up waves-effect waves-light right tooltipped" data-position="bottom" data-tooltip="Ver PDF"><i class="material-icons">file_download</i></a>
-        </div>
-        <div class="card-content" style="overflow:scroll;height:450px;background: linear-gradient(#ffffff, #e5e5e5)">
-          <%/* Tabla de menús creados */%>
-          <tablamenus></tablamenus>
-        </div>
-        <div class="card-reveal">
-          <span class="card-title grey-text text-darken-4 center-align">Crear Nuevo Menú<i class="material-icons right">close</i></span>
-        <%/* Tabla de menús creados */%>
-        <%- include('includes/newmenu') -%>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Menús Fácil con Node js and Vue js</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <!-- Compiled and minified CSS -->
+  <link href="admin/css/app.min.css" rel="stylesheet">    
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+</head>
+<body>
+<div id="dash">
+    
+</div>
+<footer class="page-footer" style="background-color:#2a2730">
+      <div class="footer-copyright">
+          <div class="container">
+            <span class="left"> Desarrollado por <a class="grey-text text-lighten-4" href="https://agenciawebbogota.com/" target="_blank">Agencia Web Bogotá</a></span>
+            <span class="right">Todos los derechos reservados</span>
+          </div>
       </div>
-    </div>
-  </div>
-  <div class="col l4 s12">
-    <div class="card" style="height:520px;background-color: #2a2730">
-      <div class="card-image">
-      <a href="#!" class="btn-floating halfway-fab waves-effect waves-light tooltipped" data-position="button" data-tooltip="Ver o imprimir pedidos" style="background-color:#E88A10 !important;"><i class="material-icons">file_download</i></a>
-      <div class="card-content">
-        <h2 class="titulo-pedidos">Ultimas Ordenes</h2>
-        <p style="color: white;text-overflow:ellipsis;white-space:nowrap;overflow:hidden;" class="lista-menus"  <%/* v-model="pedidos" v-for="(pedido, index) in pedidos" v-if="index < 10"*/%> ><%/* @{{momentjs(pedido.created_at)}}, @{{pedido.nombre_pedido}}, @{{pedido.nombre}} */%><em></em></p>
-      </div>
-	</div>
-</div>
-  </div>
-</div>
-  <div id="card-stats">
-    <div class="row">
-        <div class="col s12 m6 l3">
-            <div class="card">
-                <div class="card-content white-text" style="background-color:#66181a">
-                    <p class="card-stats-title"><i class="mdi-social-group-add"></i> Menus Disponibles</p>
-                    <h4 class="card-stats-number"><%/* @{{ total }} */%></h4>
-                    <p class="card-stats-compare"><i class="material-icons tiny">access_time</i> <span class="green-text text-lighten-5">En tiempo real</span>
-                    </p>
-                </div>
-                <div class="card-action darken-2" style="background-color:#66181a">
-                    <div id="clients-bar" class="center-align"></div>
-                </div>
-            </div>
-        </div>
-        <div class="col s12 m6 l3">
-            <div class="card">
-                <div class="card-content lighten-1 white-text" style="background-color:#E88A10">
-                    <p class="card-stats-title"><i class="mdi-editor-insert-drive-file"></i> Ordenes Hoy</p>
-                    <h4 class="card-stats-number" model="pedidos"> <%/* @{{pedidos.length}} */%></h4>
-                    <p class="card-stats-compare"><i class="mdi-hardware-keyboard-arrow-down"></i><span class="deep-purple-text text-lighten-5"><%/* {{ fecha }} */%></span>
-                    </p>
-                </div>
-                <div class="card-action darken-2" style="background-color:#E88A10">
-                    <div id="invoice-line" class="center-align"></div>
-                </div>
-            </div>
-        </div>
-        <div class="col s12 m6 l3">
-            <div class="card">
-                <div class="card-content white-text" style="background-color:#66181a">
-                    <p class="card-stats-title"><i class="mdi-action-trending-up"></i> Vendido Hoy</p>
-                    <h4 class="card-stats-number">$ <%/* @{{ number_format(vendidosdia) }} */%></h4>
-                    <p class="card-stats-compare"><i class="material-icons tiny">access_time</i> <span class="blue-grey-text text-lighten-5">En tiempo real</span>
-                    </p>
-                </div>
-                <div class="card-action darken-2" style="background-color:#66181a">
-                    <div id="profit-tristate" class="center-align"></div>
-                </div>
-            </div>
-        </div>
-        <div class="col s12 m6 l3">
-            <div class="card">
-                <div class="card-content white-text" style="background-color:#E88A10">
-                    <p class="card-stats-title"><i class="mdi-editor-attach-money"></i>Más vendido</p>
-                    <h4 class="card-stats-number" style="font-size:25px;"> <%/* @{{ masvendido }} */%></h4>
-                    <p class="card-stats-compare"><i class="mdi-hardware-keyboard-arrow-up"></i><%/* {{cantidad_vendida}} */%><span class="purple-text text-lighten-5">Ventas</span>
-                    </p>
-                </div>
-                <div class="card-action darken-2" style="background-color:#E88A10">
-                    <div id="sales-compositebar" class="center-align"></div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<%/* Formulario para edición de menus */%>
-<%- include('includes/modals/editar') -%>
-  </div>
-     <!--Botones flotantes con opciones--> 
-  <div class="fixed-action-btn" style="bottom: 50px; right: 19px;">
-    <a class="btn-floating btn-large">
-      <i class="material-icons" style="background-color:#66181a;">add</i>
-    </a>
-    <ul>
-      <li><a href="#!" class="btn-floating green tooltipped" data-position="left" data-tooltip="Historico menús"><i class="material-icons">content_paste</i></a></li>
-    </ul>
-  </div>
-</div>
-<%- include('includes/footer') -%>
+  </footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  //var io = io( serverUri, {'transports': ['websocket', 'polling']});  
+  var socket = io.connect('http://192.168.0.12:4000');
+  var user = {
+     nombre: "Luis Fernando Raga"
+  }
+  // Emitir eventos
+  socket.emit('conectado', { user });
+
+  //Escuchar eventos
+  socket.on('user-connected', (user)=>{
+    //alert('Un usario se ha conectado a la app.');
+    alert(user.nombre);
+    
+  })
+</script>
+
+<script src="/admin/js/app.js"></script>     
+</html>
   

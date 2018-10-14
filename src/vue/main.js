@@ -8,26 +8,40 @@ Vue.use(VueAxios, axios);
 
 import App from './App.vue';
 import TablaMenus from './componentes/TablaMenus.vue';
-//Vue.component('TablaMenus', './componentes/TablaMenus.vue')
-//import DisplayItem from './components/DisplayItem.vue';
-//import EditItem from './components/EditItem.vue';
+// import Ordenes from './componentes/Ordenes.vue';
+import Sucursales from './componentes/Sucursales.vue';
+import Escritorio from './componentes/Escritorio.vue';
+import ActualizarCuenta from './componentes/ActualizarCuenta.vue';
+
+
 new Vue({
   // ...
   el:"#dash",
   components: {
-    'tablamenus': TablaMenus,
+    'app': App,
+    //'ordenes': Ordenes,
   }
 })
 const routes = [
   {
-    //name: 'TablaMenus',
-    //path: '/dashboard',
-    //component: TablaMenus
+    name: 'sucursales',
+    path: '/dashboard/sucursales',
+    component: Sucursales
   },
-  
+  {
+    name: 'escritorio',
+    path: '/dashboard',
+    component: Escritorio
+  },
+  {
+    name: 'actualizar-cuenta',
+    path: '/dashboard/actualizar-cuenta',
+    component: ActualizarCuenta
+  },
 ];
 
+const router = new VueRouter({ mode: 'history', routes });
+new Vue(Vue.util.extend({ router },App)).$mount('#dash');
 
 
-const router = new VueRouter({ mode: 'history', routes: routes });
-new Vue(Vue.util.extend({ router }, App)).$mount('#dash');
+

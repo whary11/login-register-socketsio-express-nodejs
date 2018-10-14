@@ -9,54 +9,122 @@
                 <th>Estado</th>
                 <th colspan="4">Opciones</th>
                 </tr>
-            </thead>
+            </thead>   
             <tbody>
-                <tr>
-                <td>Algo</td>
-                <td>algo</td>
-                <td>$ {{ new Intl.NumberFormat().format(1000) }} </td>
-                <td>
-                    <div class="col s12 m8 l9">
-                    <div class="switch">
-                        <label>
-                        <input type="checkbox">
-                        <span class="lever" style="background-color:#E88A10"></span>
-                        </label>
-                    </div>
-                    </div>
-                </td>
-                <td>
-                    <a href="#actualizarMenu" class="btn-floating blue modal-trigger" v-on:click="llenarModal(menu)">
-                    <i class="material-icons">edit</i>
-                    </a>
-                </td>
-                <td>
-                    <a v-on:click.prevent="updateEstado(menu)" class="btn-floating red"><i class="material-icons">delete</i></a>
-                </td>
+                <tr v-for="(menu, index) in menus" :key="index">
+                    <td>{{menu.nombre}}</td>
+                    <td>{{menu.descripcion}}</td>
+                    <td>$ {{ new Intl.NumberFormat().format(menu.precio) }} </td>
+                    <td>
+                        <div class="col s12 m8 l9">
+                        <div class="switch">
+                            <label>
+                            <input type="checkbox" v-model="menu.estado">
+                            <span class="lever" style="background-color:#E88A10"></span>
+                            </label>
+                        </div>
+                        </div>
+                    </td>
+                    <td>
+                        <a href="#actualizarMenu" class="btn-floating blue modal-trigger" @click="llenarModal(menu)"> 
+                        <i class="material-icons">edit</i>
+                        </a>
+                    </td>
+                    <td>
+                        <a v-on:click.prevent="updateEstado(menu)" class="btn-floating red"><i class="material-icons">delete</i></a>
+                    </td>
                 </tr>
             </tbody>
         </table>
+
+        <div id="actualizarMenu" class="modal modal-fixed-footer" >
+            <div class="modal-content">
+                <h4 class="center-align">Editar Menú</h4>
+                <div class="row">
+                    <form class="col s12" @submit.prevent="actualizarMenu()">
+                        <div class="row">
+                            <div class="input-field col s6">
+                                <i class="mdi-action-add-shopping-cart small"></i>
+                                <input id="nobre" type="text" class="validate" data-length="10" v-model="update.nombre">
+                            </div>
+                            <div class="input-field col s6">
+                                <i class="mdi-editor-attach-money small"></i>
+                                <input id="precio" type="text" class="validate" v-model="update.precio">
+                            </div>
+                            <div class="input-field col s12">
+                                <i class="mdi-maps-restaurant-menu small"></i>
+                                <textarea id="descripcion" class="materialize-textarea" data-length="120" v-model="update.descripcion"></textarea>
+                            </div>
+                            <div id="input-switches1" class="section">
+                            <div class="row section">
+                                <div class="col s12 m8 l9">
+                                <div class="switch">
+                                    ¿Es Adición? :
+                                    <label>
+                                    NO
+                                    <input type="checkbox" v-model="update.adicional">
+                                    <span class="lever"></span> SI
+                                    </label>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+
+                            <div class="col s12 m8 l9">
+                            <div class="switch">
+                                Disponible :
+                                <label>
+                                NO
+                                <input type="checkbox" v-model="update.estado">
+                                <span class="lever"></span> SI
+                                </label>
+                            </div>
+                            </div>
+                        </div>
+                        <button class="btn waves-effect waves-light grey darken-4" type="submit">Guardar</button>
+                    </form>
+                </div>
+            </div> 
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancelar</a>
+            </div>
+        </div>
     </div>
 </template>
-
 <script>
 export default {
     data(){
         return{
-            nombre: 'Luis Fernando Raga'
+            menus:[
+                {
+                    nombre: 'Patacones',
+                    descripcion:'Patacones con pollo y acompañados de la mejor salsa chocoana.',
+                    precio:10000,
+                    estado: true,
+                    adicional:false
+                },
+                {
+                    nombre: 'Alitas con especias',
+                    descripcion:'Patacones con pollo y acompañados de la mejor salsa chocoana.',
+                    precio:10000,
+                    estado: true,
+                    adicional:true
+                }
+            ],
+            update:''
         }
     },
-    created:function(){
-        document.addEventListener('DOMContentLoaded', ()=> {
-			// Botones flotantes
-			let fixedActionBtn = M.FloatingActionButton.init(document.querySelectorAll('.fixed-action-btn'), {});
-			let actualizarMenu = M.Modal.init(document.querySelectorAll('#actualizarMenu'), {dismissible:false});
-			let tooltip = M.Tooltip.init(document.querySelectorAll('.tooltipped'), {});
-			let sidenav = M.Sidenav.init(document.querySelectorAll('.sidenav'), {});
-		})    
+    created:function(){     
     },
     methods:{
-
+        llenarModal(menu){
+            this.update = menu
+            console.log(this.update.nombre);  
+        },
+        actualizarMenu(){
+            // despues de actualizar se debe reescribir la propiedad de menus
+            alert(`Ya puedes actualizar el menú ${this.update.nombre}`)
+        }
     }
 }
 </script>

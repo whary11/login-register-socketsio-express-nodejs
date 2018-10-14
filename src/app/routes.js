@@ -43,7 +43,7 @@ module.exports = (app, passport, io) => {
 		
 	}));
 	//Dashboard
-	app.get('/dashboard', (req, res) => {
+	app.get('/dashboard',  (req, res) => {
 		res.render('admin/index', {
 			user: req.user
 		});
