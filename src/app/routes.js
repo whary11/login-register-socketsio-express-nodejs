@@ -1,17 +1,19 @@
 const User = require('./models/User');
 const Menu = require('../app/models/Menu');
 const csurf = require('csurf')
-const csrfProtection = csurf({ cookie: true })
+const csrfProtection = csurf({ cookie: true})
 
 module.exports = (app, passport, io) => {
 
 	//Si no existe el token
-	app.use(csurf({ cookie: true }))
-	app.use(function (err, req, res, next) {
-		console.log(err);
+	app.use(csurf({ cookie: true}))
+
+	app.use((err, req, res, next) => {
+		console.log(req.body);
+		// console.log(req);		
 		if (err.code !== 'EBADCSRFTOKEN') return next(err)
 		// Enviar error si no existe el token
-		res.send('no tienes el token')
+		res.send('No tienes el token.')
 	  })
 	// index routes
 	app.get('/', (req, res) => {
@@ -37,15 +39,17 @@ module.exports = (app, passport, io) => {
 		});
 	});
 	app.post('/signup', csrfProtection,passport.authenticate('local-signup', {
-		successRedirect: '/dashboard',
-		failureRedirect: '/signup',
-		failureFlash: true, // allow flash messages
+		successRedirect:'/dashboard',
+		failureRedirect:'/signup',
+		failureFlash: 	true,
 		
 	}));
 	//Dashboard
-	app.get('/dashboard',  (req, res) => {
+	app.get('/dashboard',csrfProtection,(req, res) => {
 		res.render('admin/index', {
-			user: req.user
+			user: 		req.user,
+			csrfToken: 	req.csrfToken(),
+
 		});
 	});
 	//Menus
@@ -59,22 +63,27 @@ module.exports = (app, passport, io) => {
 				return res.json(menus)
 		});
 	})
-	// Proteger esta ruta despuès que se hagan todas las pruebas de seguridad
-	app.post('/menus',(req, res)=>{
-		let menu = new Menu({
-			nombre:req.body.nombre,
-			descripcion:req.body.descripcion,
-			precio:req.body.precio,
-			user:req.body.user_id,
-		});
-		menu.save(function (err) {
-			if (err){
-				return handleError(err);
-			}else{			
-				return menu;
-			}
-		})
-		return res.json(menu)
+	// Proteger esta ruta después que se hagan todas las pruebas de seguridad
+	app.post('api/menus',csrfProtection,(req, res)=>{
+
+		// console.log(req);
+
+		// return req;
+		
+		// let menu = new Menu({
+		// 	nombre:req.body.nombre,
+		// 	descripcion:req.body.descripcion,
+		// 	precio:req.body.precio,
+		// 	user:req.body.user_id,
+		// });
+		// menu.save(function (err) {
+		// 	if (err){
+		// 		return handleError(err);
+		// 	}else{			
+		// 		return menu;
+		// 	}
+		// })
+		// return res.json(menu)
 	})
 	// logout
 	app.get('/logout', isLoggedIn, (req, res) => {

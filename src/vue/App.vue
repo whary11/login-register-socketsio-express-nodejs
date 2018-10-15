@@ -4,7 +4,7 @@
         <li>
             <div class="user-view">
                 <a><img class="circle" width="190" src="/admin/img/logo2.png"></a>
-                <a href="http://menusfacil.com/cliente/menus-facil" target="_blank"><span class="gray-text name">Menús Fácil</span></a>
+                <a href="!#" target="_blank"><span class="gray-text name">Menús Fácil</span></a>
                 <a href="#"><span class="gray-text email">whary11@gmail.com</span></a>
             </div>
         </li>
@@ -64,7 +64,7 @@ import Ordenes from './componentes/Ordenes.vue';
 import TablaMenus from './componentes/TablaMenus.vue';
 import Footer from './componentes/Footer.vue';
 import NuevoMenu from './componentes/NuevoMenu.vue';
-import EditarMenu from './componentes/EditarMenu.vue';
+// import EditarMenu from './componentes/EditarMenu.vue';
 import Escritorio from './componentes/Escritorio.vue';
   export default {
       data(){
@@ -74,6 +74,7 @@ import Escritorio from './componentes/Escritorio.vue';
           }
       },
       created(){
+          
         document.addEventListener('DOMContentLoaded', ()=> {
 			// Botones flotantes
 			let fixedActionBtn = M.FloatingActionButton.init(document.querySelectorAll('.fixed-action-btn'), {});
@@ -86,7 +87,7 @@ import Escritorio from './componentes/Escritorio.vue';
           'ordenes': Ordenes,
           'tablmenus': TablaMenus,
           'nuevoMenu' : NuevoMenu,
-          'editarMenu' : EditarMenu,
+        //   'editarMenu' : EditarMenu,
           'escritorio' : Escritorio
       }
   }

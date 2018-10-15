@@ -127,7 +127,11 @@ export default {
         },
         eliminarMenu(menu){
             this.menus.splice(menu, 1);
-            M.toast({html: 'Menú eliminado.', outDuration:1000});
+            M.toast({
+                html:'Menú eliminado.',
+                outDuration:1000,
+                // position:'left'
+                });
         }
     }
 }

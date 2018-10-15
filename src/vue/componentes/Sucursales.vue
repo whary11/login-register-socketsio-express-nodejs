@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Aquí van las sucursales</h1>
+        <h4>Aquí van las sucursales</h4>
     </div>
 </template>
 <script>

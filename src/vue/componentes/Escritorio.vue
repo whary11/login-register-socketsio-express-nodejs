@@ -101,7 +101,7 @@ import Ordenes from './Ordenes.vue';
 import TablaMenus from './TablaMenus.vue';
 import Footer from './Footer.vue';
 import NuevoMenu from './NuevoMenu.vue';
-import EditarMenu from './EditarMenu.vue';
+// import EditarMenu from './EditarMenu.vue';
 export default {
       data(){
           return{
@@ -115,7 +115,7 @@ export default {
           'ordenes': Ordenes,
           'tablmenus': TablaMenus,
           'nuevoMenu' : NuevoMenu,
-          'editarMenu' : EditarMenu,
+        //   'editarMenu' : EditarMenu,
       }
   }
 </script>
