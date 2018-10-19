@@ -12,6 +12,10 @@
 </head>
 <body>
 <div id="dash">
+
+
+
+
  
     
 </div>
@@ -28,16 +32,18 @@
 <script>
   //var io = io( serverUri, {'transports': ['websocket', 'polling']});  
   var socket = io.connect('http://192.168.0.12:4000');
-  var user = {
-     nombre: "Luis Fernando Raga"
-  }
+
+
+  var user = <%- JSON.stringify(user) %>;
+
+  // console.log(user.local.nombre)
   // Emitir eventos
-  socket.emit('conectado', { user });
+  socket.emit('conectado', user);
 
   //Escuchar eventos
   socket.on('user-connected', (user)=>{
     //alert('Un usario se ha conectado a la app.');
-    alert(user.nombre);
+    alert(`El usuario ${user.local.nombre} ha iniciado la aplicación.`)
     
   })
 </script>

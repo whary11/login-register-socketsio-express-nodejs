@@ -703,6 +703,12 @@ module.exports = g;
 /* 4 */
 /***/ (function(module, exports, __webpack_require__) {
 
+module.exports = __webpack_require__(28);
+
+/***/ }),
+/* 5 */
+/***/ (function(module, exports, __webpack_require__) {
+
 "use strict";
 /* WEBPACK VAR INJECTION */(function(process) {
 
@@ -800,7 +806,7 @@ module.exports = defaults;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)))
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -852,12 +858,6 @@ if (false) {(function () {
 
 /* harmony default export */ __webpack_exports__["default"] = (Component.exports);
 
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-module.exports = __webpack_require__(28);
 
 /***/ }),
 /* 7 */
@@ -1143,7 +1143,7 @@ var _Ordenes = __webpack_require__(13);
 
 var _Ordenes2 = _interopRequireDefault(_Ordenes);
 
-var _TablaMenus = __webpack_require__(5);
+var _TablaMenus = __webpack_require__(6);
 
 var _TablaMenus2 = _interopRequireDefault(_TablaMenus);
 
@@ -1333,122 +1333,35 @@ if (false) {(function () {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
+var _axios = __webpack_require__(4);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
     data: function data() {
         return {
-            menus: [{
-                nombre: 'Patacones',
-                descripcion: 'Patacones con pollo y acompañados de la mejor salsa chocoana.',
-                precio: 10000,
-                estado: true,
-                adicional: false
-            }, {
-                nombre: 'Alitas con especias',
-                descripcion: 'Patacones con pollo y acompañados de la mejor salsa chocoana.',
-                precio: 10000,
-                estado: true,
-                adicional: true
-            }],
+            menus: [],
             update: ''
         };
     },
 
-    created: function created() {},
+    created: function created() {
+        this.getMenus();
+    },
     methods: {
+        getMenus: function getMenus() {
+            var url = '/api/menus';
+            var self = this;
+            _axios2.default.get(url).then(function (resp) {
+                console.log(resp);
+                self.menus = resp.data;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
         llenarModal: function llenarModal(menu) {
             this.update = menu;
             console.log(this.update.nombre);
@@ -1466,7 +1379,99 @@ exports.default = {
             });
         }
     }
-};
+}; //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /***/ }),
 /* 16 */
@@ -1587,7 +1592,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _axios = __webpack_require__(6);
+var _axios = __webpack_require__(4);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -1623,6 +1628,7 @@ exports.default = {
         this.add._csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     },
 
+
     methods: {
         addMenu: function addMenu() {
 
@@ -1642,9 +1648,10 @@ exports.default = {
                 } else {
                     fd = this.add;
                 }
+
                 var url = 'api/menus';
                 _axios2.default.post(url, fd).then(function (resp) {
-                    console.log(resp.data);
+                    console.log(resp);
                 }).catch(function (error) {
                     console.log(error);
                 });
@@ -1853,7 +1860,7 @@ var _Ordenes = __webpack_require__(13);
 
 var _Ordenes2 = _interopRequireDefault(_Ordenes);
 
-var _TablaMenus = __webpack_require__(5);
+var _TablaMenus = __webpack_require__(6);
 
 var _TablaMenus2 = _interopRequireDefault(_TablaMenus);
 
@@ -2025,7 +2032,7 @@ var _vueAxios = __webpack_require__(27);
 
 var _vueAxios2 = _interopRequireDefault(_vueAxios);
 
-var _axios = __webpack_require__(6);
+var _axios = __webpack_require__(4);
 
 var _axios2 = _interopRequireDefault(_axios);
 
@@ -2033,7 +2040,7 @@ var _App = __webpack_require__(46);
 
 var _App2 = _interopRequireDefault(_App);
 
-var _TablaMenus = __webpack_require__(5);
+var _TablaMenus = __webpack_require__(6);
 
 var _TablaMenus2 = _interopRequireDefault(_TablaMenus);
 
@@ -15949,7 +15956,7 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var _typeof="fun
 var utils = __webpack_require__(0);
 var bind = __webpack_require__(7);
 var Axios = __webpack_require__(30);
-var defaults = __webpack_require__(4);
+var defaults = __webpack_require__(5);
 
 /**
  * Create an instance of Axios
@@ -16032,7 +16039,7 @@ function isSlowBuffer (obj) {
 "use strict";
 
 
-var defaults = __webpack_require__(4);
+var defaults = __webpack_require__(5);
 var utils = __webpack_require__(0);
 var InterceptorManager = __webpack_require__(39);
 var dispatchRequest = __webpack_require__(40);
@@ -16573,7 +16580,7 @@ module.exports = InterceptorManager;
 var utils = __webpack_require__(0);
 var transformData = __webpack_require__(41);
 var isCancel = __webpack_require__(10);
-var defaults = __webpack_require__(4);
+var defaults = __webpack_require__(5);
 var isAbsoluteURL = __webpack_require__(42);
 var combineURLs = __webpack_require__(43);
 

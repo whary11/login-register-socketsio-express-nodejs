@@ -6,7 +6,6 @@ module.exports = (io)=>{
 
         
         socket.on('conectado', function (user) {
-            console.log(user);
             socket.broadcast.emit('user-connected', user);
         });
     });

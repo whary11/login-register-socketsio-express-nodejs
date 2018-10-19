@@ -110,11 +110,13 @@ export default {
         }
     },
     mounted(){
-        this.add._csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content') 
+        this.add._csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+
     },
+
     methods:{
         addMenu(){
-
+            
             if (!this.noti.a.nombre || !this.noti.a.descripcion || !this.noti.a.precio) {
                 alert('Parece que falta información.')
             }else{
@@ -131,10 +133,14 @@ export default {
 				}else{
 					fd = this.add;
                 }
+
+                
                 let url = 'api/menus';
                 axios.post(url, fd)
                     .then((resp)=>{
-                        console.log(resp.data);  
+                        console.log(resp);
+
+
                     })
                     .catch((error)=>{
                         console.log(error);       

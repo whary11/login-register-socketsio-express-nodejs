@@ -92,31 +92,28 @@
     </div>
 </template>
 <script>
+import axios from 'axios';
 export default {
     data(){
         return{
-            menus:[
-                {
-                    nombre: 'Patacones',
-                    descripcion:'Patacones con pollo y acompañados de la mejor salsa chocoana.',
-                    precio:10000,
-                    estado: true,
-                    adicional:false
-                },
-                {
-                    nombre: 'Alitas con especias',
-                    descripcion:'Patacones con pollo y acompañados de la mejor salsa chocoana.',
-                    precio:10000,
-                    estado: true,
-                    adicional:true
-                }
-            ],
+            menus:[],
             update:''
         }
     },
-    created:function(){     
+    created:function(){
+        this.getMenus()   
     },
     methods:{
+        getMenus(){
+            let url = '/api/menus'
+            let self = this;
+            axios.get(url).then(resp=>{
+                console.log(resp)
+                self.menus = resp.data;                
+            }).catch(error=>{
+                console.log(error);
+            })
+        },
         llenarModal(menu){
             this.update = menu
             console.log(this.update.nombre);  
@@ -131,7 +128,7 @@ export default {
                 html:'Menú eliminado.',
                 outDuration:1000,
                 // position:'left'
-                });
+            });
         }
     }
 }

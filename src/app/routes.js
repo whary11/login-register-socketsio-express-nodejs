@@ -9,7 +9,6 @@ module.exports = (app, passport, io) => {
 	app.use(csurf({ cookie: true}))
 
 	app.use((err, req, res, next) => {
-		console.log(req.body);
 		// console.log(req);		
 		if (err.code !== 'EBADCSRFTOKEN') return next(err)
 		// Enviar error si no existe el token
@@ -45,7 +44,7 @@ module.exports = (app, passport, io) => {
 		
 	}));
 	//Dashboard
-	app.get('/dashboard',csrfProtection,(req, res) => {
+	app.get('/dashboard',isLoggedIn,csrfProtection,(req, res) => {
 		res.render('admin/index', {
 			user: 		req.user,
 			csrfToken: 	req.csrfToken(),
@@ -53,37 +52,45 @@ module.exports = (app, passport, io) => {
 		});
 	});
 	//Menus
-	app.get('/api/menus', (req, res)=>{
-		User.find()
-			//.populate({path:'user', select:'local.nombre _id',} )
+	app.get('/api/menus', isLoggedIn,(req, res)=>{
+		console.log(req.user._id);
+		
+		Menu.find()
+			.populate({path:'user', select:'local.nombre _id email',} )
 			.exec((error, menus)=>{
 				if (error) {
 					return handleError(err);
 				}
-				return res.json(menus)
+				let newMenus= [];
+				menus.map(menu=>{				
+					if (menu.user.length != []) {
+						// console.log(menu.user[0]._id);
+						
+						if(menu.user[0]._id == req.user._id){
+							newMenus.push(menu)
+						}
+					}
+				})
+				
+				return res.json(newMenus)
 		});
 	})
 	// Proteger esta ruta después que se hagan todas las pruebas de seguridad
-	app.post('api/menus',csrfProtection,(req, res)=>{
-
-		// console.log(req);
-
-		// return req;
-		
-		// let menu = new Menu({
-		// 	nombre:req.body.nombre,
-		// 	descripcion:req.body.descripcion,
-		// 	precio:req.body.precio,
-		// 	user:req.body.user_id,
-		// });
-		// menu.save(function (err) {
-		// 	if (err){
-		// 		return handleError(err);
-		// 	}else{			
-		// 		return menu;
-		// 	}
-		// })
-		// return res.json(menu)
+	app.post('/api/menus',isLoggedIn,csrfProtection,(req, res)=>{				
+		let menu = new Menu({
+		 	nombre:req.body.nombre,
+		 	descripcion:req.body.descripcion,
+		 	precio:req.body.precio,
+		 	user:req.user._id,
+		});
+		// menu.user.push(req.user.user_id)
+		menu.save(function (err) {
+		 	if (err){
+		 		return handleError(err);
+		 	}else{		
+				return res.json(menu) 
+		 	}
+		})	
 	})
 	// logout
 	app.get('/logout', isLoggedIn, (req, res) => {
