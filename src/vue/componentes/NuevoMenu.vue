@@ -136,11 +136,18 @@ export default {
 
                 
                 let url = 'api/menus';
+                let self = this;
                 axios.post(url, fd)
                     .then((resp)=>{
-                        console.log(resp);
-
-
+                        M.toast({
+                            html:'Menú creado.',
+                            outDuration:1000,
+                        });
+                        self.add = {
+                            nombre: '',
+                            descripcion: '',
+                            precio: ''
+                        };
                     })
                     .catch((error)=>{
                         console.log(error);       

@@ -1356,7 +1356,6 @@ exports.default = {
             var url = '/api/menus';
             var self = this;
             _axios2.default.get(url).then(function (resp) {
-                console.log(resp.data._id);
                 self.menus = resp.data;
             }).catch(function (error) {
                 console.log(error);
@@ -1364,7 +1363,6 @@ exports.default = {
         },
         llenarModal: function llenarModal(menu) {
             this.update = menu;
-            console.log(this.update.nombre);
         },
         actualizarMenu: function actualizarMenu() {
             // despues de actualizar se debe reescribir la propiedad de menus
@@ -1650,8 +1648,17 @@ exports.default = {
                 }
 
                 var url = 'api/menus';
+                var self = this;
                 _axios2.default.post(url, fd).then(function (resp) {
-                    console.log(resp);
+                    M.toast({
+                        html: 'Menú creado.',
+                        outDuration: 1000
+                    });
+                    self.add = {
+                        nombre: '',
+                        descripcion: '',
+                        precio: ''
+                    };
                 }).catch(function (error) {
                     console.log(error);
                 });

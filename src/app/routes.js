@@ -65,22 +65,10 @@ module.exports = (app, passport, io) => {
 				}
 				let newMenus= [];
 				menus.map(menu=>{
-
-
 					// Condicionar los menus que se envian.
-
 					if (menu.user.length != []) {
 						newMenus.push(menu)				
-						if(menu.user[0]._id == req.user._id){
-						 	console.log(menu.user[0]._id);
-						 	console.log(req.user._id);
-					 		newMenus.push(menu)
-						}else{
-							// newMenus.push('No hay nada para mostrar.')
-						}
 					}
-
-
 				})
 				
 				return res.json(newMenus)

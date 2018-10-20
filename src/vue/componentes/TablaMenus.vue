@@ -108,15 +108,13 @@ export default {
             let url = '/api/menus'
             let self = this;
             axios.get(url).then(resp=>{
-                console.log(resp.data._id)
-                self.menus = resp.data;                
+                self.menus = resp.data;              
             }).catch(error=>{
                 console.log(error);
             })
         },
         llenarModal(menu){
-            this.update = menu
-            console.log(this.update.nombre);  
+            this.update = menu  
         },
         actualizarMenu(){
             // despues de actualizar se debe reescribir la propiedad de menus
