@@ -108,7 +108,7 @@ export default {
             let url = '/api/menus'
             let self = this;
             axios.get(url).then(resp=>{
-                console.log(resp)
+                console.log(resp.data._id)
                 self.menus = resp.data;                
             }).catch(error=>{
                 console.log(error);

@@ -1356,7 +1356,7 @@ exports.default = {
             var url = '/api/menus';
             var self = this;
             _axios2.default.get(url).then(function (resp) {
-                console.log(resp);
+                console.log(resp.data._id);
                 self.menus = resp.data;
             }).catch(function (error) {
                 console.log(error);

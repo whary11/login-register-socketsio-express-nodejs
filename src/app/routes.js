@@ -53,23 +53,34 @@ module.exports = (app, passport, io) => {
 	});
 	//Menus
 	app.get('/api/menus', isLoggedIn,(req, res)=>{
-		console.log(req.user._id);
 		
-		Menu.find()
-			.populate({path:'user', select:'local.nombre _id email',} )
+		Menu.find({ user: req.user._id }).populate({
+						path:'user',
+						select:'local.nombre _id email',
+						match:{_id:req.user._id}
+					})
 			.exec((error, menus)=>{
 				if (error) {
 					return handleError(err);
 				}
 				let newMenus= [];
-				menus.map(menu=>{				
+				menus.map(menu=>{
+
+
+					// Condicionar los menus que se envian.
+
 					if (menu.user.length != []) {
-						// console.log(menu.user[0]._id);
-						
+						newMenus.push(menu)				
 						if(menu.user[0]._id == req.user._id){
-							newMenus.push(menu)
+						 	console.log(menu.user[0]._id);
+						 	console.log(req.user._id);
+					 		newMenus.push(menu)
+						}else{
+							// newMenus.push('No hay nada para mostrar.')
 						}
 					}
+
+
 				})
 				
 				return res.json(newMenus)
