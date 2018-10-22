@@ -4,7 +4,6 @@ const csurf = require('csurf')
 const csrfProtection = csurf({ cookie: true})
 
 module.exports = (app, passport, io) => {
-
 	//Si no existe el token
 	app.use(csurf({ cookie: true}))
 
@@ -51,7 +50,7 @@ module.exports = (app, passport, io) => {
 
 		});
 	});
-	//Menus
+	//GET Menus 
 	app.get('/api/menus', isLoggedIn,(req, res)=>{
 		
 		Menu.find({ user: req.user._id }).populate({
@@ -70,11 +69,30 @@ module.exports = (app, passport, io) => {
 						newMenus.push(menu)				
 					}
 				})
-				
 				return res.json(newMenus)
 		});
 	})
-	// Proteger esta ruta después que se hagan todas las pruebas de seguridad
+
+	// PUT Menus (Actualización de los menus y estado del mismo)
+	app.put('/api/menus',isLoggedIn,csrfProtection,(req, res)=>{
+		Menu.findOne({
+			_id: req.body._id
+		  })
+		  .then((menu) => {
+			menu.nombre = 		req.body.nombre,
+			menu.descripcion =	req.body.descripcion,
+			menu.precio =     	req.body.precio,
+			menu.estado = req.body.estado,
+			menu.adicional = req.body.adicional
+			menu
+			  .save()
+			  .then(() => {
+				res.jsonp(menu); // enviamos la boleta de vuelta
+			  });
+		  });
+
+	})
+	// POST Menus
 	app.post('/api/menus',isLoggedIn,csrfProtection,(req, res)=>{				
 		let menu = new Menu({
 		 	nombre:req.body.nombre,

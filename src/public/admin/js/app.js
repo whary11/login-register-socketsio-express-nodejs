@@ -1164,26 +1164,28 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = {
     data: function data() {
         return {
-            nombre: 'Luis Raga'
+            user: {}
 
         };
     },
     created: function created() {
-
+        this.user = user;
         document.addEventListener('DOMContentLoaded', function () {
             // Botones flotantes
             var fixedActionBtn = M.FloatingActionButton.init(document.querySelectorAll('.fixed-action-btn'), {});
-            var actualizarMenu = M.Modal.init(document.querySelectorAll('#actualizarMenu'), { dismissible: false });
+            // let actualizar = M.Modal.init(document.querySelectorAll('#actualizarMenu'), {dismissible:false});
             var tooltip = M.Tooltip.init(document.querySelectorAll('.tooltipped'), {});
             var sidenav = M.Sidenav.init(document.querySelectorAll('.sidenav'), {});
         });
     },
 
+    mounted: function mounted() {
+        // let actualizar = M.Modal.init(document.querySelectorAll('#actualizarMenu'), {dismissible:false});
+    },
     components: {
         'ordenes': _Ordenes2.default,
         'tablmenus': _TablaMenus2.default,
         'nuevoMenu': _NuevoMenu2.default,
-        //   'editarMenu' : EditarMenu,
         'escritorio': _Escritorio2.default
     }
 };
@@ -1344,12 +1346,23 @@ exports.default = {
     data: function data() {
         return {
             menus: [],
-            update: ''
+            update: '',
+            actualizar: ''
         };
     },
 
-    created: function created() {
+    mounted: function mounted() {
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // let formulario = document.querySelectorAll('#actualizarMenu')
+            // let actualizar = M.Modal.init(formulario, {dismissible:true});
+        });
         this.getMenus();
+    },
+    created: function created() {
+        // Lógica
+
+
     },
     methods: {
         getMenus: function getMenus() {
@@ -1362,11 +1375,44 @@ exports.default = {
             });
         },
         llenarModal: function llenarModal(menu) {
+            var formulario = document.querySelectorAll('#actualizarMenu');
+            var actualizar = M.Modal.init(formulario, { dismissible: true });
+            this.actualizar = actualizar;
             this.update = menu;
         },
-        actualizarMenu: function actualizarMenu() {
-            // despues de actualizar se debe reescribir la propiedad de menus
-            alert('Ya puedes actualizar el men\xFA ' + this.update.nombre);
+        actualizarMenu: function actualizarMenu(menu) {
+            if (menu) {
+                // Actualizar sólo es estado del menú
+                menu._csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                var url = '/api/menus';
+                // this.update._csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                // console.log(this.update)
+                _axios2.default.put(url, menu).then(function (resp) {
+                    M.toast({
+                        html: 'Estado actualizado.',
+                        outDuration: 1000
+                        // position:'left'
+                    });
+                });
+            } else {
+
+                // Actualizar todo el menú
+                var _url = '/api/menus';
+                this.update._csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+                var self = this;
+                _axios2.default.put(_url, this.update).then(function (resp) {
+                    // self.actualizar.close()
+                    M.toast({
+                        html: 'Menú actualizado.',
+                        outDuration: 1000
+                        // position:'left'
+                    });
+                }).catch(function (error) {
+                    console.log(error);
+                });
+                // console.log(this.update)
+            }
         },
         eliminarMenu: function eliminarMenu(menu) {
             this.menus.splice(menu, 1);
@@ -1860,7 +1906,7 @@ if (false) {(function () {
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _Ordenes = __webpack_require__(13);
@@ -1982,17 +2028,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 //
 
 exports.default = {
-    data: function data() {
-        return {};
-    },
-    created: function created() {},
+  data: function data() {
+    return {
+      //   user:{}
 
-    components: {
-        'ordenes': _Ordenes2.default,
-        'tablmenus': _TablaMenus2.default,
-        'nuevoMenu': _NuevoMenu2.default
-        //   'editarMenu' : EditarMenu,
-    }
+    };
+  },
+  created: function created() {
+    // this.user = user
+  },
+
+  components: {
+    'ordenes': _Ordenes2.default,
+    'tablmenus': _TablaMenus2.default,
+    'nuevoMenu': _NuevoMenu2.default
+    //   'editarMenu' : EditarMenu,
+  }
 };
 
 /***/ }),
@@ -17015,28 +17066,33 @@ var render = function() {
                           : menu.estado
                       },
                       on: {
-                        change: function($event) {
-                          var $$a = menu.estado,
-                            $$el = $event.target,
-                            $$c = $$el.checked ? true : false
-                          if (Array.isArray($$a)) {
-                            var $$v = null,
-                              $$i = _vm._i($$a, $$v)
-                            if ($$el.checked) {
-                              $$i < 0 &&
-                                _vm.$set(menu, "estado", $$a.concat([$$v]))
+                        change: [
+                          function($event) {
+                            var $$a = menu.estado,
+                              $$el = $event.target,
+                              $$c = $$el.checked ? true : false
+                            if (Array.isArray($$a)) {
+                              var $$v = null,
+                                $$i = _vm._i($$a, $$v)
+                              if ($$el.checked) {
+                                $$i < 0 &&
+                                  _vm.$set(menu, "estado", $$a.concat([$$v]))
+                              } else {
+                                $$i > -1 &&
+                                  _vm.$set(
+                                    menu,
+                                    "estado",
+                                    $$a.slice(0, $$i).concat($$a.slice($$i + 1))
+                                  )
+                              }
                             } else {
-                              $$i > -1 &&
-                                _vm.$set(
-                                  menu,
-                                  "estado",
-                                  $$a.slice(0, $$i).concat($$a.slice($$i + 1))
-                                )
+                              _vm.$set(menu, "estado", $$c)
                             }
-                          } else {
-                            _vm.$set(menu, "estado", $$c)
+                          },
+                          function($event) {
+                            _vm.actualizarMenu(menu)
                           }
-                        }
+                        ]
                       }
                     }),
                     _vm._v(" "),
@@ -17377,7 +17433,7 @@ var staticRenderFns = [
           staticClass: "modal-close waves-effect waves-green btn-flat",
           attrs: { href: "#!" }
         },
-        [_vm._v("Cancelar")]
+        [_vm._v("Salir")]
       )
     ])
   }
@@ -18538,9 +18594,30 @@ var render = function() {
       "ul",
       { staticClass: "sidenav", attrs: { id: "slide-out" } },
       [
-        _vm._m(0),
+        _c("li", [
+          _c("div", { staticClass: "user-view" }, [
+            _c("a", [
+              _c("img", {
+                staticClass: "circle",
+                attrs: { width: "190", src: _vm.user.local.avatar }
+              })
+            ]),
+            _vm._v(" "),
+            _c("a", { attrs: { href: "!#", target: "_blank" } }, [
+              _c("span", { staticClass: "gray-text name" }, [
+                _vm._v(_vm._s(_vm.user.local.nombre))
+              ])
+            ]),
+            _vm._v(" "),
+            _c("a", { attrs: { href: "#" } }, [
+              _c("span", { staticClass: "gray-text email" }, [
+                _vm._v(_vm._s(_vm.user.local.email))
+              ])
+            ])
+          ])
+        ]),
         _vm._v(" "),
-        _vm._m(1),
+        _vm._m(0),
         _vm._v(" "),
         _c("router-link", { attrs: { tag: "li", to: "/dashboard" } }, [
           _c("a", { staticClass: "sidenav-close" }, [
@@ -18549,7 +18626,7 @@ var render = function() {
           ])
         ]),
         _vm._v(" "),
-        _vm._m(2),
+        _vm._m(1),
         _vm._v(" "),
         _c(
           "router-link",
@@ -18564,7 +18641,7 @@ var render = function() {
           ]
         ),
         _vm._v(" "),
-        _vm._m(3),
+        _vm._m(2),
         _vm._v(" "),
         _c(
           "router-link",
@@ -18579,48 +18656,23 @@ var render = function() {
           ]
         ),
         _vm._v(" "),
+        _vm._m(3),
+        _vm._v(" "),
         _vm._m(4),
         _vm._v(" "),
         _vm._m(5),
         _vm._v(" "),
-        _vm._m(6),
-        _vm._v(" "),
-        _vm._m(7)
+        _vm._m(6)
       ],
       1
     ),
     _vm._v(" "),
-    _vm._m(8),
+    _vm._m(7),
     _vm._v(" "),
     _c("div", [_c("router-view")], 1)
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("li", [
-      _c("div", { staticClass: "user-view" }, [
-        _c("a", [
-          _c("img", {
-            staticClass: "circle",
-            attrs: { width: "190", src: "/admin/img/logo2.png" }
-          })
-        ]),
-        _vm._v(" "),
-        _c("a", { attrs: { href: "!#", target: "_blank" } }, [
-          _c("span", { staticClass: "gray-text name" }, [_vm._v("Menús Fácil")])
-        ]),
-        _vm._v(" "),
-        _c("a", { attrs: { href: "#" } }, [
-          _c("span", { staticClass: "gray-text email" }, [
-            _vm._v("whary11@gmail.com")
-          ])
-        ])
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

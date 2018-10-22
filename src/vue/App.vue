@@ -3,9 +3,9 @@
     <ul id="slide-out" class="sidenav">
         <li>
             <div class="user-view">
-                <a><img class="circle" width="190" src="/admin/img/logo2.png"></a>
-                <a href="!#" target="_blank"><span class="gray-text name">Menús Fácil</span></a>
-                <a href="#"><span class="gray-text email">whary11@gmail.com</span></a>
+                <a><img class="circle" width="190"   :src="user.local.avatar"></a>
+                <a href="!#" target="_blank"><span class="gray-text name">{{ user.local.nombre }}</span></a>
+                <a href="#"><span class="gray-text email">{{ user.local.email }}</span></a>
             </div>
         </li>
         <!-- Rutas  -->
@@ -69,25 +69,27 @@ import Escritorio from './componentes/Escritorio.vue';
   export default {
       data(){
           return{
-              nombre:'Luis Raga'
+              user:{}
 
           }
       },
       created(){
-          
+        this.user = user          
         document.addEventListener('DOMContentLoaded', ()=> {
 			// Botones flotantes
 			let fixedActionBtn = M.FloatingActionButton.init(document.querySelectorAll('.fixed-action-btn'), {});
-			let actualizarMenu = M.Modal.init(document.querySelectorAll('#actualizarMenu'), {dismissible:false});
+			// let actualizar = M.Modal.init(document.querySelectorAll('#actualizarMenu'), {dismissible:false});
 			let tooltip = M.Tooltip.init(document.querySelectorAll('.tooltipped'), {});
 			let sidenav = M.Sidenav.init(document.querySelectorAll('.sidenav'), {});
 		})  
+      },
+      mounted:function(){
+		// let actualizar = M.Modal.init(document.querySelectorAll('#actualizarMenu'), {dismissible:false});
       },
       components:{
           'ordenes': Ordenes,
           'tablmenus': TablaMenus,
           'nuevoMenu' : NuevoMenu,
-        //   'editarMenu' : EditarMenu,
           'escritorio' : Escritorio
       }
   }

@@ -19,7 +19,7 @@
                         <div class="col s12 m8 l9">
                         <div class="switch">
                             <label>
-                            <input type="checkbox" v-model="menu.estado">
+                            <input type="checkbox" v-model="menu.estado" @change="actualizarMenu(menu)">
                             <span class="lever" style="background-color:#E88A10"></span>
                             </label>
                         </div>
@@ -86,7 +86,7 @@
                 </div>
             </div> 
             <div class="modal-footer">
-                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cancelar</a>
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Salir</a>
             </div>
         </div>
     </div>
@@ -97,11 +97,24 @@ export default {
     data(){
         return{
             menus:[],
-            update:''
+            update:'',
+            actualizar:''
         }
     },
+    mounted:function(){
+        
+        document.addEventListener('DOMContentLoaded', ()=> {
+            // let formulario = document.querySelectorAll('#actualizarMenu')
+			// let actualizar = M.Modal.init(formulario, {dismissible:true});
+        })
+        this.getMenus();
+
+    },
     created:function(){
-        this.getMenus()   
+        // Lógica
+		
+
+
     },
     methods:{
         getMenus(){
@@ -114,11 +127,43 @@ export default {
             })
         },
         llenarModal(menu){
+            let formulario = document.querySelectorAll('#actualizarMenu')
+            let actualizar = M.Modal.init(formulario, {dismissible:true});
+            this.actualizar = actualizar;
             this.update = menu  
         },
-        actualizarMenu(){
-            // despues de actualizar se debe reescribir la propiedad de menus
-            alert(`Ya puedes actualizar el menú ${this.update.nombre}`)
+        actualizarMenu(menu){
+            if(menu){
+                // Actualizar sólo es estado del menú
+                menu._csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                let url = '/api/menus';
+                // this.update._csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                // console.log(this.update)
+                axios.put(url, menu).then(resp=>{
+                    M.toast({
+                        html:'Estado actualizado.',
+                        outDuration:1000,
+                        // position:'left'
+                    });
+                })
+            }else{
+
+                // Actualizar todo el menú
+                let url = '/api/menus';
+                this.update._csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                
+                let self = this;
+                axios.put(url, this.update).then(resp=>{
+                        // self.actualizar.close()
+                        M.toast({
+                            html:'Menú actualizado.',
+                            outDuration:1000,
+                            // position:'left'
+                        });
+                }).catch(error=>{console.log(error)})
+                // console.log(this.update)
+            }
+            
         },
         eliminarMenu(menu){
             this.menus.splice(menu, 1);

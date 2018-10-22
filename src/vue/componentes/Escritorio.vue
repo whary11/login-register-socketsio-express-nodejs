@@ -105,11 +105,12 @@ import NuevoMenu from './NuevoMenu.vue';
 export default {
       data(){
           return{
+            //   user:{}
 
           }
       },
       created(){
-        
+        // this.user = user
       },
       components:{
           'ordenes': Ordenes,

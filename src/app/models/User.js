@@ -11,6 +11,22 @@ const userSchema = new mongoose.Schema({
     email: String,
     password: String,
     url:String,
+    color1:{
+      type: String,
+      default: ''
+    },
+    color2:{
+      type: String,
+      default: ''
+    },
+    color:{
+      type: String,
+      default: ''
+    },
+    avatar:{
+      type: String,
+      default: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Vue.js_Logo.svg/600px-Vue.js_Logo.svg.png'
+    },
     tipo_empresa: {
       type: String,
       default: 'GRATIS' // PLAN-1, PLAN-2, PLAN-3
