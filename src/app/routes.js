@@ -55,7 +55,7 @@ module.exports = (app, passport, io) => {
 		
 		Menu.find({ user: req.user._id }).populate({
 						path:'user',
-						select:'local.nombre _id email',
+						select:'local.nombre local.tipo_empresa local.tipo_negocio _id',
 						match:{_id:req.user._id}
 					})
 			.exec((error, menus)=>{
@@ -83,6 +83,7 @@ module.exports = (app, passport, io) => {
 			menu.descripcion =	req.body.descripcion,
 			menu.precio =     	req.body.precio,
 			menu.estado = req.body.estado,
+			menu.eliminado = req.body.eliminado
 			menu.adicional = req.body.adicional
 			menu
 			  .save()
@@ -90,7 +91,6 @@ module.exports = (app, passport, io) => {
 				res.jsonp(menu); // enviamos la boleta de vuelta
 			  });
 		  });
-
 	})
 	// POST Menus
 	app.post('/api/menus',isLoggedIn,csrfProtection,(req, res)=>{				

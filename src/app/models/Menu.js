@@ -6,6 +6,10 @@ const menuSchema = new mongoose.Schema({
     nombre:String,
     descripcion:String,
     precio:String,
+    eliminado: {
+      type: Boolean,
+      default: false
+    },
     estado: {
         type: Boolean,
         default: true

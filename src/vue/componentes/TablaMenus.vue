@@ -11,7 +11,7 @@
                 </tr>
             </thead>   
             <tbody>
-                <tr v-for="(menu, index) in menus" :key="index">
+                <tr v-for="(menu, index) in menus" :key="index" v-if="!menu.eliminado">
                     <td>{{menu.nombre}}</td>
                     <td>{{menu.descripcion}}</td>
                     <td>$ {{ new Intl.NumberFormat().format(menu.precio) }} </td>
@@ -93,27 +93,32 @@
 </template>
 <script>
 import axios from 'axios';
+import swal from 'sweetalert';
 export default {
     data(){
         return{
             menus:[],
             update:'',
-            actualizar:''
+            actualizar:null
         }
     },
     mounted:function(){
         
         document.addEventListener('DOMContentLoaded', ()=> {
-            // let formulario = document.querySelectorAll('#actualizarMenu')
-			// let actualizar = M.Modal.init(formulario, {dismissible:true});
+            var elem = document.querySelector('.modal');
+            var config = {
+                dismissible:false,
+                endingTop:'29%',
+                startingTop:'0%'
+            }
+            this.actualizar = M.Modal.init(elem, config);
+        
         })
         this.getMenus();
 
     },
     created:function(){
-        // Lógica
-		
-
+        // Lógica al crear la aplicación de Vue
 
     },
     methods:{
@@ -147,14 +152,16 @@ export default {
                     });
                 })
             }else{
-
                 // Actualizar todo el menú
                 let url = '/api/menus';
                 this.update._csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                 
                 let self = this;
-                axios.put(url, this.update).then(resp=>{
-                        // self.actualizar.close()
+                axios.put(url, this.update)
+                .then(resp=>{
+                        let modalupdate = M.Modal.getInstance(self.actualizar)
+                        console.log(M.Modal.getInstance(self.actualizar))
+                        // self.actualizar.close();
                         M.toast({
                             html:'Menú actualizado.',
                             outDuration:1000,
@@ -166,12 +173,39 @@ export default {
             
         },
         eliminarMenu(menu){
-            this.menus.splice(menu, 1);
-            M.toast({
-                html:'Menú eliminado.',
-                outDuration:1000,
-                // position:'left'
-            });
+            let mensaje = 'Seguro que deseas eliminar el menú ?'
+            swal({
+                    title: "Eliminar?",
+                    text: mensaje,
+                    icon: "warning",
+                    buttons: ["NO", "SI"],
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete){
+                        menu.eliminado = true;
+                        let url = '/api/menus';
+                        menu._csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        axios.put(url, menu)
+                            .then(resp=>{
+                                this.menus.splice(menu, 1);
+                                M.toast({
+                                    html:'Menú eliminado.',
+                                    outDuration:1000,
+                                });
+                            }).catch(error=>{
+                                M.toast({
+                                    html:'Parece que tenemos un error, ya nuestro equipo de soporte ha sido notificado.',
+                                    outDuration:1000,
+                                });
+                            })                        
+                    } else {
+                        M.toast({
+                            html:'Haz cancelado la solicitud.',
+                            outDuration:1000,
+                        });
+                    }
+                });
         }
     }
 }
