@@ -4,7 +4,7 @@
         <li>
             <div class="user-view">
                 <a><img class="circle" width="190"   :src="user.local.avatar"></a>
-                <a href="!#" target="_blank"><span class="gray-text name">{{ user.local.nombre }}</span></a>
+                <a v-bind:href="'clientes/'+user.local.url" target="_blank"><span class="gray-text name">{{ user.local.nombre }}</span></a>
                 <a href="#"><span class="gray-text email">{{ user.local.email }}</span></a>
             </div>
         </li>

@@ -18667,11 +18667,20 @@ var render = function() {
               })
             ]),
             _vm._v(" "),
-            _c("a", { attrs: { href: "!#", target: "_blank" } }, [
-              _c("span", { staticClass: "gray-text name" }, [
-                _vm._v(_vm._s(_vm.user.local.nombre))
-              ])
-            ]),
+            _c(
+              "a",
+              {
+                attrs: {
+                  href: "clientes/" + _vm.user.local.url,
+                  target: "_blank"
+                }
+              },
+              [
+                _c("span", { staticClass: "gray-text name" }, [
+                  _vm._v(_vm._s(_vm.user.local.nombre))
+                ])
+              ]
+            ),
             _vm._v(" "),
             _c("a", { attrs: { href: "#" } }, [
               _c("span", { staticClass: "gray-text email" }, [

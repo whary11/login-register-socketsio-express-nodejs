@@ -6,17 +6,37 @@ const csrfProtection = csurf({ cookie: true})
 module.exports = (app, passport, io) => {
 	//Si no existe el token
 	app.use(csurf({ cookie: true}))
-
 	app.use((err, req, res, next) => {
 		// console.log(req);		
 		if (err.code !== 'EBADCSRFTOKEN') return next(err)
 		// Enviar error si no existe el token
 		res.send('No tienes el token.')
 	  })
-	// index routes
+	// index (Página principal)
 	app.get('/', (req, res) => {
 		res.render('index');
 	});
+	// Página para hacer pedidos
+	app.get('/clientes/:url/', (req, res)=>{
+		// res.json(req.params)
+		User.findOne({ 'local.url': req.params.url } ,'local.email _id',(err, usuario)=>{
+
+			// Retornar los menús disponibles según el estado marcado por la empresa.
+
+			let condicion = { 
+				eliminado:false,
+				estado:true,  
+				user: usuario._id 
+			}
+			Menu.find(condicion, (error, menus)=>{
+				res.json(menus)
+			})
+
+
+		});
+
+
+	})
 	//login view
 	app.get('/login',csrfProtection, (req, res) => {
 		res.render('login.ejs', {
@@ -40,14 +60,12 @@ module.exports = (app, passport, io) => {
 		successRedirect:'/dashboard',
 		failureRedirect:'/signup',
 		failureFlash: 	true,
-		
 	}));
 	//Dashboard
 	app.get('/dashboard',isLoggedIn,csrfProtection,(req, res) => {
 		res.render('admin/index', {
 			user: 		req.user,
 			csrfToken: 	req.csrfToken(),
-
 		});
 	});
 	//GET Menus 
@@ -72,7 +90,6 @@ module.exports = (app, passport, io) => {
 				return res.json(newMenus)
 		});
 	})
-
 	// PUT Menus (Actualización de los menus y estado del mismo)
 	app.put('/api/menus',isLoggedIn,csrfProtection,(req, res)=>{
 		Menu.findOne({
