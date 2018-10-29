@@ -1333,6 +1333,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony namespace reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Ordenes_vue__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return __WEBPACK_IMPORTED_MODULE_0__babel_loader_node_modules_vue_loader_lib_selector_type_script_index_0_Ordenes_vue__[key]; }) }(__WEBPACK_IMPORT_KEY__));
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__node_modules_vue_loader_lib_template_compiler_index_id_data_v_7fb59c62_hasScoped_false_buble_transforms_node_modules_vue_loader_lib_selector_type_template_index_0_Ordenes_vue__ = __webpack_require__(47);
 var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(63)
+}
 var normalizeComponent = __webpack_require__(1)
 /* script */
 
@@ -1342,7 +1346,7 @@ var normalizeComponent = __webpack_require__(1)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
-var __vue_styles__ = null
+var __vue_styles__ = injectStyle
 /* scopeId */
 var __vue_scopeId__ = null
 /* moduleIdentifier (server only) */
@@ -1381,6 +1385,33 @@ if (false) {(function () {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -1815,7 +1846,10 @@ exports.default = {
                         precio: ''
                     };
                 }).catch(function (error) {
-                    console.log(error);
+                    M.toast({
+                        html: 'Parece que hay un error, nuestro equipo de soporte ya fue notificado.',
+                        outDuration: 1000
+                    });
                 });
             }
             // Guardar el menú y notificar al componente TablaMenus con el menú agregado sin nececidad de hacer una nueva petición.
@@ -17032,7 +17066,7 @@ var staticRenderFns = [
             _c(
               "p",
               {
-                staticClass: "lista-menus",
+                staticClass: "white-text center-align lista-menus",
                 staticStyle: {
                   color: "white",
                   "text-overflow": "ellipsis",
@@ -17040,7 +17074,85 @@ var staticRenderFns = [
                   overflow: "hidden"
                 }
               },
-              [_c("em")]
+              [
+                _c("label", [
+                  _c("input", { attrs: { type: "checkbox" } }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "check" })
+                ]),
+                _vm._v("\n                Patacones"),
+                _c("span", [_vm._v("..")]),
+                _vm._v("Luis Raga...Hace unos minutos\n            ")
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "p",
+              {
+                staticClass: "white-text center-align lista-menus",
+                staticStyle: {
+                  color: "white",
+                  "text-overflow": "ellipsis",
+                  "white-space": "nowrap",
+                  overflow: "hidden"
+                }
+              },
+              [
+                _c("label", [
+                  _c("input", { attrs: { type: "checkbox" } }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "check" })
+                ]),
+                _vm._v("\n                Patacones"),
+                _c("span", [_vm._v("..")]),
+                _vm._v("Luis Raga...Hace unos minutos\n            ")
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "p",
+              {
+                staticClass: "white-text center-align lista-menus",
+                staticStyle: {
+                  color: "white",
+                  "text-overflow": "ellipsis",
+                  "white-space": "nowrap",
+                  overflow: "hidden"
+                }
+              },
+              [
+                _c("label", [
+                  _c("input", { attrs: { type: "checkbox" } }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "check" })
+                ]),
+                _vm._v("\n                Patacones"),
+                _c("span", [_vm._v("..")]),
+                _vm._v("Luis Raga...Hace unos minutos\n            ")
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "p",
+              {
+                staticClass: "white-text center-align lista-menus",
+                staticStyle: {
+                  color: "white",
+                  "text-overflow": "ellipsis",
+                  "white-space": "nowrap",
+                  overflow: "hidden"
+                }
+              },
+              [
+                _c("label", [
+                  _c("input", { attrs: { type: "checkbox" } }),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "check" })
+                ]),
+                _vm._v("\n                Patacones"),
+                _c("span", [_vm._v("..")]),
+                _vm._v("Luis Raga...Hace unos minutos\n            ")
+              ]
             )
           ])
         ])
@@ -19036,6 +19148,46 @@ if (false) {
     require("vue-hot-reload-api")      .rerender("data-v-a5cb2ac4", esExports)
   }
 }
+
+/***/ }),
+/* 63 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(64);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(54)("6e060d1e", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7fb59c62\",\"scoped\":false,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Ordenes.vue", function() {
+     var newContent = require("!!../../../node_modules/css-loader/index.js!../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-7fb59c62\",\"scoped\":false,\"hasInlineConfig\":false}!../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Ordenes.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 64 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(53)(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.check::before{\n    /* border: 2px solid teal;  */\n    border-right: 2px solid white !important;\n    border-bottom: 2px solid white !important;\n    /* color: yellowgreen !important; */\n}\n.check::after{\n    border: 2px solid white !important; \n    /* border-right: 2px solid teal !important;\n    border-bottom: 2px solid teal !important; */\n    /* color: yellowgreen !important; */\n}\nlabel{\n    color: white !important;\n}\ntr{\n    border-bottom: 2px solid transparent !important\n}\n", ""]);
+
+// exports
+
 
 /***/ })
 /******/ ]);

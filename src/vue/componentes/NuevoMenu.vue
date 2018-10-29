@@ -150,7 +150,10 @@ export default {
                         };
                     })
                     .catch((error)=>{
-                        console.log(error);       
+                        M.toast({
+                            html:'Parece que hay un error, nuestro equipo de soporte ya fue notificado.',
+                            outDuration:1000,
+                        });      
                     })              
             }
              // Guardar el menú y notificar al componente TablaMenus con el menú agregado sin nececidad de hacer una nueva petición.
