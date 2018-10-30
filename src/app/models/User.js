@@ -13,15 +13,15 @@ const userSchema = new mongoose.Schema({
     url:String,
     color1:{
       type: String,
-      default: ''
+      default: '#2a2730'
     },
     color2:{
       type: String,
-      default: ''
+      default: '#66181a'
     },
     color:{
       type: String,
-      default: ''
+      default: '#E88A10'
     },
     avatar:{
       type: String,

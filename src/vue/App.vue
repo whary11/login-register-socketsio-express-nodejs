@@ -34,7 +34,7 @@
     </ul>
     <div class="navbar-fixed">
         <nav>
-            <div class="nav-wrapper" style="background-color:#2a2730">
+            <div class="nav-wrapper" :style="{backgroundColor:user.local.color1}">
                 <div href="#" data-target="slide-out" style="cursor: pointer;" class="sidenav-trigger" id="menuLateral"><i class="material-icons large">menu</i></div>
                 <a class="brand-logo center">
                     <img src="admin/img/logo-menusfacil.svg" alt="Menus Facil Logo" width="100px" class="imagen-logo">

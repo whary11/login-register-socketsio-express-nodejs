@@ -19,21 +19,23 @@ module.exports = (app, passport, io) => {
 	// Página para hacer pedidos
 	app.get('/clientes/:url/', (req, res)=>{
 		// res.json(req.params)
-		User.findOne({ 'local.url': req.params.url } ,'local.email _id',(err, usuario)=>{
+		// User.findOne({ 'local.url': req.params.url } ,'local.email _id',(err, usuario)=>{
 
-			// Retornar los menús disponibles según el estado marcado por la empresa.
+		// 	// Retornar los menús disponibles según el estado marcado por la empresa.
 
-			let condicion = { 
-				eliminado:false,
-				estado:true,  
-				user: usuario._id 
-			}
-			Menu.find(condicion, (error, menus)=>{
-				res.json(menus)
-			})
+		// 	let condicion = { 
+		// 		eliminado:false,
+		// 		estado:true,  
+		// 		user: usuario._id 
+		// 	}
+		// 	Menu.find(condicion, (error, menus)=>{
+		// 		res.json(menus)
+		// 	})
 
 
-		});
+		// });
+
+		res.render('cliente/cliente')
 
 
 	})
