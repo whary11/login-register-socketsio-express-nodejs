@@ -1,24 +1,121 @@
+
+
 <!DOCTYPE html>
 <html lang="es">
-<head>
-	<meta charset="UTF-8">
-	<title>Menús Fácil | Menús Fácil</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-	<link href="admin/css/app.min.css" rel="stylesheet">   
-	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
-</head>
-<body>
-	<div id="app" v-cloak>
-		<div class="navbar-fixed">
-			<nav>
-				<div class="nav-wrapper">
-					<a class="brand-logo center">
-						<img src="/admin/img/logo-menusfacil.svg" alt="Menus Facil Logo" width="100px" class="imagen-logo">
-					</a>
-				</div>
-		  	</nav>
-		</div>
-	</div>
-</body>
+   <head>
+      <meta charset="UTF-8">
+      <title>Menús Fácil | Menús Fácil</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="csrf-token" content="<%= csrfToken %>">
+      <link rel="icon" href="/admin/img/favicon.png" sizes="32x32">
+      <link rel="stylesheet" href="/inicio/css/materialize.min.css">
+      <link rel="stylesheet" href="/inicio/css/animate.min.css">
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+      <style media="screen">
+    
+      </style>
+   </head>
+   <body>
+      <div id="app">
+      <div class="navbar-fixed">
+         <nav>
+            <div class="nav-wrapper">
+               <a class="brand-logo center">
+               <img src="/admin/img/logo-menusfacil.svg" alt="Menus Facil Logo" width="150px" class="imagen-logo">
+               </a>
+            </div>
+         </nav>
+      </div>
+      
+      <div class="container">
+      <form @submit.prevent="enviarPedido()" id="pedido">
+        
+        
+        <div class="row">
+          <div class="col s12 m4" v-for="menu in menus">
+            <div class="card">
+              <div class="card-image">
+                  <img src="http://res.cloudinary.com/menusfacil/image/upload/v1538879407/menusfacil/ed4zpeajc2zaxp8ek7et.png">
+                  <span class="card-title">Card Title</span>
+                  <a class="btn-floating halfway-fab waves-effect waves-light red tooltipped" @click="agregarPedido(menu)" data-position="left" data-tooltip="Pide uno"><i class="material-icons">add</i></a>
+                </div>
+                <div class="card-content">
+                  <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          
+          
+          
+            <div class="row">
+               <div class="col l8 s12 m6 offset-l2">
+                  <div class="card" style="border-radius:10px">
+                     <table class="striped" v-if="pedido.menu_pedido.length > 0">
+                        <thead >
+                           <tr>
+                              <th class="center-align red animated bounceIn" colspan="2">MI SELECCIONADOS</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr v-for="(menu, index) in detalle" class="animated bounceIn">
+                              <td class="content">{{menu.nombre}}    ( $ {{ new Intl.NumberFormat().format(menu.precio) }})</td>
+                              <td class="content delete"><i class="material-icons" @click="eliminarMenu(index, menu.precio)" style="cursor:pointer;">close</i></td>
+                           </tr>
+                        </tbody>
+                        <tfoot>
+                           <tr class="animated bounceIn red white-text" v-if="pedido.total > 0">
+                              <td colspan="2" class="content"><span class="left-align">TOTAL</span> <span class="right-align">$ {{ new Intl.NumberFormat().format(pedido.total) }}</span>	</td>
+                           </tr>
+                        </tfoot>
+                     </table>
+                  </div>
+               </div>
+               <a class="waves-effect waves-light btn-large confirmar col l6 s10 offset-l3 offset-s1" v-if="(terminaste == false) && (pedido.menu_pedido.length >0)" @click="terminaste = true">Confirmar Pedido</a>
+            </div>
+            <div>
+            </div>
+            <div class="container animated fadeInDownBig" v-if="(terminaste === true) && (pedido.menu_pedido.length >0)">
+               <div class="row">
+                  <div class="input-field col l8 s12 m8 offset-m2 offset-l2 ">
+                     <i class="material-icons prefix">account_circle</i>
+                     <input id="nombre" type="text" autocomplete="off" v-model="pedido.nombre">
+                     <span v-if="noti.nombre" class="red-text text-darken-2">{{noti.nombre}}</span>
+                     <label for="nombre">Nombre</label>
+                  </div>
+                  <div class="input-field col l8 s12 m8 offset-m2 offset-l2">
+                     <i class="material-icons prefix">phone</i>
+                     <input id="telefono" type="number" v-model="pedido.telefono">
+                     <span v-if="noti.telefono" class="red-text text-darken-2">{{noti.telefono}}</span>
+                     <label for="telefono">Teléfono</label>
+                  </div>
+                  <div class="input-field col l8 s12 m8 offset-l2 m8 offset-m2">
+                     <i class="material-icons prefix">edit_location</i>
+                     <input id="direccion" type="text" v-model="pedido.direccion"  autocomplete="off">
+                     <span v-if="noti.direccion" class="red-text text-darken-2">{{noti.direccion}}</span>
+                     <label for="direccion">Dirección</label>
+                  </div>
+                  <div class="input-field col l8 s12 m8 offset-m2 offset-l2">
+                     <i class="material-icons prefix">announcement</i>
+                     <input id="observaciones" type="text" v-model="pedido.observaciones"  autocomplete="off">
+                     <span v-if="noti.observaciones" class="red-text text-darken-2">{{noti.observaciones}}</span>
+                     <label for="observaciones">¿Alguna observación?</label>
+                  </div>
+                  <p style="color:white" id="user_id">2</p>
+                  <button style="background:#2a2730;"
+                     v-if="(pedido.menu_pedido.length >0) && (pedido.nombre.length >0 && pedido.telefono.length >0 && pedido.direccion.length>0 )" class="btn waves-effect col l6 s10 offset-l3 offset-s1" type="submit">Enviar Pedido</button>
+                  <button v-else class="btn waves-effect col l6 s10 offset-l3 offset-s1 disabled" type="submit">Llena todos los campos</button>
+               </div>
+            </div>
+      </form>
+      </div>
+   </body>
+   <!-- Compiled and minified JavaScript -->
+   <script src="/inicio/js/materialize.min.js"></script>
+   <script src="/inicio/js/axios.min.js"></script>
+   <script src="/inicio/js/vue.min.js"></script>
+   <script type="text/javascript" src="/inicio/js/app.js"></script>
 </html>
+

@@ -17,27 +17,24 @@ module.exports = (app, passport, io) => {
 		res.render('index');
 	});
 	// Página para hacer pedidos
-	app.get('/clientes/:url/', (req, res)=>{
+	app.get('/clientes/:url/',csrfProtection, (req, res)=>{
 		// res.json(req.params)
-		// User.findOne({ 'local.url': req.params.url } ,'local.email _id',(err, usuario)=>{
+		 User.findOne({ 'local.url': req.params.url } ,'local.email _id',(err, usuario)=>{
 
-		// 	// Retornar los menús disponibles según el estado marcado por la empresa.
+		 	// Retornar los menús disponibles según el estado marcado por la empresa.
 
-		// 	let condicion = { 
-		// 		eliminado:false,
-		// 		estado:true,  
-		// 		user: usuario._id 
-		// 	}
-		// 	Menu.find(condicion, (error, menus)=>{
-		// 		res.json(menus)
-		// 	})
-
-
-		// });
-
-		res.render('cliente/cliente')
-
-
+		 	let condicion = { 
+				eliminado:false,
+		 		estado:true,  
+				user: usuario._id 
+		 	}
+			Menu.find(condicion, (error, menus)=>{
+				res.render('cliente/cliente',{
+					menus,
+					csrfToken: req.csrfToken(),
+				})
+			 }) 
+		})
 	})
 	//login view
 	app.get('/login',csrfProtection, (req, res) => {
@@ -70,7 +67,7 @@ module.exports = (app, passport, io) => {
 			csrfToken: 	req.csrfToken(),
 		});
 	});
-	//GET Menus 
+	//GET Menus para dashboard
 	app.get('/api/menus', isLoggedIn,(req, res)=>{
 		
 		Menu.find({ user: req.user._id }).populate({
@@ -92,6 +89,21 @@ module.exports = (app, passport, io) => {
 				return res.json(newMenus)
 		});
 	})
+	//GET Menus para hacer pedidos
+	app.get('/clientes/:url/menus', (req, res)=>{
+		User.findOne({ 'local.url': req.params.url } ,'local.email _id',(err, usuario)=>{
+			// Retornar los menús disponibles según el estado marcado por la empresa.
+			let condicion = { 
+				eliminado:false,
+				estado:true,  
+				user: usuario._id 
+			}
+			Menu.find(condicion, (error, menus)=>{
+				res.json(menus)
+			})
+		}) 
+	})
+
 	// PUT Menus (Actualización de los menus y estado del mismo)
 	app.put('/api/menus',isLoggedIn,csrfProtection,(req, res)=>{
 		Menu.findOne({
