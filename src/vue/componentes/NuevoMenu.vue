@@ -115,8 +115,7 @@ export default {
     },
 
     methods:{
-        addMenu(){
-            
+        addMenu(){ 
             if (!this.noti.a.nombre || !this.noti.a.descripcion || !this.noti.a.precio) {
                 alert('Parece que falta información.')
             }else{
@@ -139,6 +138,7 @@ export default {
                 let self = this;
                 axios.post(url, fd)
                     .then((resp)=>{
+                        self.$emit('newmenu')
                         M.toast({
                             html:'Menú creado.',
                             outDuration:1000,

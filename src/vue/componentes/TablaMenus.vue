@@ -206,7 +206,11 @@ export default {
                         });
                     }
                 });
-        }
+        },
+        menu(){
+              console.log('Evento emitido');
+              
+          }
     }
 }
 </script>

@@ -10,12 +10,12 @@
                 </div>
                 <div class="card-content" style="overflow:scroll;height:450px;background: linear-gradient(#ffffff, #e5e5e5)">
                 <!-- <%/* Tabla de menús creados */%> -->
-                <tablmenus></tablmenus>
+                    <tablmenus ></tablmenus>
                 </div>
                 <div class="card-reveal">
                     <span class="card-title grey-text text-darken-4 center-align">Crear Nuevo Menú<i class="material-icons right">close</i></span>
                 <!-- <%/* Crear menús */%> -->
-                    <nuevoMenu></nuevoMenu>
+                    <nuevoMenu v-on:newmenu="menu()"></nuevoMenu>
                 </div>
             </div>
         </div>   
@@ -117,6 +117,12 @@ export default {
           'tablmenus': TablaMenus,
           'nuevoMenu' : NuevoMenu,
         //   'editarMenu' : EditarMenu,
+      },
+      methods:{
+          menu(){
+              console.log('Evento emitido');
+              
+          }
       }
   }
 </script>

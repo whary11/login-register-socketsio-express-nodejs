@@ -70,7 +70,6 @@ import Escritorio from './componentes/Escritorio.vue';
       data(){
           return{
               user:{}
-
           }
       },
       created(){
