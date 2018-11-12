@@ -2,7 +2,7 @@
 new Vue({
 	el: '#app',
 	data:{
-		menus:'',
+		menus:false,
 		adicionales:'',
 		checked:false,
 		terminaste:false,
@@ -23,20 +23,24 @@ new Vue({
 			telefono:'',
 			direccion:'',
 			observaciones:''
-		}
+		},
+		socket:''
 	},
 	beforeMount:function(){
 		this.menus = this.getMenus()
 		this.pedido._csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
 		document.addEventListener('DOMContentLoaded', function() {
-    		let adicionalSelect = M.FormSelect.init(document.querySelector('.adicionalSelect'), {});
+			let adicionalSelect = M.FormSelect.init(document.querySelector('.adicionalSelect'), {});
     		let menuSelect = M.FormSelect.init(document.querySelector('.menuSelect'), {});
     		let slider = M.Carousel.init(document.querySelector('.carousel'), {fullWidth: false,indicators: false});
     		let instances = M.Tooltip.init(document.querySelectorAll('.tooltipped'), {});
 		});
+		this.socket = io();
 	},
 	methods:{
 		enviarPedido:function(){
+
+			let url = '/api/ordenes';
 			if (this.pedido.nombre.length < 4){
 				this.noti.nombre = 'El nombre de ser igual o superior a 4 caracteres.'
 			}else if(this.pedido.telefono.length < 6){
@@ -56,11 +60,10 @@ new Vue({
 						this.noti.telefono = ''
 						this.noti.nombre = ''
 					}else {
-					// let self = this;
-						axios.post('/pedidos/crear',this.pedido)
+					////pedido con correo incluido
+						axios.post(url,this.pedido)
 							.then((resp)=>{
-								console.log(resp);
-								
+																
 								this.noti.correo = ''
 								this.noti.telefono = ''
 								this.noti.nombre = ''
@@ -78,16 +81,15 @@ new Vue({
 							})
 							.catch(function (error) {
 								M.toast({html: 'Hay un pequeño error en el servidor', outDuration:1000});
-								// console.log(error);
 							});
 					}
 				}else {
-					axios.post('/pedidos/crear',this.pedido)
+					//Pedido sin correo
+					axios.post(url,this.pedido)
 						.then((resp)=>{
-							console.log(resp);
 							if (resp.data == 'No tienes el token.') {
 								M.toast({html: 'Hay un pequeño error en el servidor.', outDuration:1000});
-							}else{
+							}else{								
 								this.noti.correo = ''
 								this.noti.telefono = ''
 								this.noti.nombre = ''
@@ -103,11 +105,11 @@ new Vue({
 								this.pedido.total = 0
 								this.terminaste = false
 								M.toast({html: 'Hemos generado su orden', outDuration:1000});
+								this.socket.emit('nuevoPedido', resp.data)
 							}
 							
 						})
 						.catch(function (error) {
-							console.log(error);
 							M.toast({html: 'Hay un pequeño error en el servidor', outDuration:1000});
 						});
 				}
@@ -121,7 +123,7 @@ new Vue({
 		    }
 		},
 		agregarPedido:function(menu){
-			this.pedido.menu_pedido.unshift(menu.id)
+			this.pedido.menu_pedido.unshift(menu._id)
 			this.detalle.unshift(menu)
 			this.pedido.total += parseFloat(menu.precio)
 			// M.toast({html: 'Menú agregado', outDuration:1000});
@@ -136,12 +138,10 @@ new Vue({
 		},
 		getMenus(){
 			var url = window.location.pathname+'/menus';
-			console.log(url);
           let menus;
 			axios.get(url).then((resp)=>{
-				this.menus = resp.data
-				console.log(resp.data);
-				
+				this.menus = resp.data				
+				this.pedido.user_id = resp.data[0].user[0]
 			})
 		}
 	}

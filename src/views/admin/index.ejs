@@ -31,20 +31,18 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
   //var io = io( serverUri, {'transports': ['websocket', 'polling']});  
-  var socket = io.connect('http://192.168.0.12:4000');
+  var socket = io();
 
 
   var user = <%- JSON.stringify(user) %>;
 
   // console.log(user.local.nombre)
   // Emitir eventos
-  socket.emit('conectado', user);
 
   //Escuchar eventos
-  socket.on('user-connected', (user)=>{
+  socket.on('nuevaOrden-'+user._id, (orden)=>{
     //alert('Un usario se ha conectado a la app.');
-    alert(`El usuario ${user.local.nombre} ha iniciado la aplicación.`)
-    
+    console.log(orden)
   })
 </script>
 

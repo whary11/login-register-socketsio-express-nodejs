@@ -1,5 +1,6 @@
 const User = require('./models/User');
 const Menu = require('../app/models/Menu');
+const Orden = require('../app/models/Orden');
 const csurf = require('csurf')
 const csrfProtection = csurf({ cookie: true})
 
@@ -20,9 +21,7 @@ module.exports = (app, passport, io) => {
 	app.get('/clientes/:url/',csrfProtection, (req, res)=>{
 		// res.json(req.params)
 		 User.findOne({ 'local.url': req.params.url } ,'local.email _id',(err, usuario)=>{
-
 		 	// Retornar los menús disponibles según el estado marcado por la empresa.
-
 		 	let condicion = { 
 				eliminado:false,
 		 		estado:true,  
@@ -69,7 +68,6 @@ module.exports = (app, passport, io) => {
 	});
 	//GET Menus para dashboard
 	app.get('/api/menus', isLoggedIn,(req, res)=>{
-		
 		Menu.find({ user: req.user._id }).populate({
 						path:'user',
 						select:'local.nombre local.tipo_empresa local.tipo_negocio _id',
@@ -140,6 +138,58 @@ module.exports = (app, passport, io) => {
 		 	}
 		})	
 	})
+//Api de pedidios
+///Crear
+app.post('/api/ordenes', csrfProtection, (req, res)=>{
+	let orden = new Orden({
+		nombre:req.body.nombre,
+		correo:req.body.correo,
+		direccion:req.body.direccion,
+		telefono:req.body.telefono,
+		observacion:req.body.observaciones,
+		menus:req.body.menu_pedido,
+		user:req.body.user_id,
+		total:req.body.total,
+	})
+	orden.save(function (err) {
+		if (err){
+			return handleError(err);
+		}else{
+				
+			return res.json(orden) 
+		}
+   })
+})
+//GET Menus para dashboard
+app.get('/api/ordenes', isLoggedIn,(req, res)=>{	
+	Orden.find({ user: req.user._id }).populate({
+					path:'user',
+					select:'local.nombre local.tipo_empresa local.tipo_negocio _id',
+					match:{_id:req.user._id}
+				})
+		.exec((error, ordenes)=>{
+			if (error) {
+				return handleError(err);
+			}
+			let newOrdenes= [];
+			ordenes.map(orden=>{
+				// Condicionar los menus que se envian.
+				if (orden.user.length != []) {
+					newOrdenes.push(orden)				
+				}
+			})
+			return res.json(newOrdenes)
+	});
+})
+
+
+
+
+
+
+
+
+
 	// logout
 	app.get('/logout', isLoggedIn, (req, res) => {
 		req.logout();

@@ -1239,6 +1239,11 @@ exports.default = {
     },
     created: function created() {
         this.user = user;
+        socket.on('nuevaOrden-' + user._id, function (orden) {
+            //alert('Un usario se ha conectado a la app.');
+            console.log(orden);
+        });
+
         document.addEventListener('DOMContentLoaded', function () {
             // Botones flotantes
             var fixedActionBtn = M.FloatingActionButton.init(document.querySelectorAll('.fixed-action-btn'), {});

@@ -1,14 +1,14 @@
 
 
 module.exports = (io)=>{
-    // Escuchando eventos
+    // Escuchando eventos de las ordenes
     io.on('connection', function (socket) {
-
-        
-        socket.on('conectado', function (user) {
-            socket.broadcast.emit('user-connected', user);
-        });
+        socket.on('nuevoPedido', (pedido)=>{
+            io.emit('nuevaOrden-'+pedido.user[0],pedido)
+        })
     });
+
+    
 
 
 

@@ -8,6 +8,11 @@ const ordenSchema = new mongoose.Schema({
     direccion:String,
     telefono:Number,
     observacion:String,
+    total:Number,
+    despachado:{
+        type: Boolean,
+      default: false
+    },
     menus:[{ type: Schema.Types.ObjectId, ref: 'Menu' }],
     user:[{ type: Schema.Types.ObjectId, ref: 'User' }],
 },{

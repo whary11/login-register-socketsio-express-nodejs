@@ -73,7 +73,14 @@ import Escritorio from './componentes/Escritorio.vue';
           }
       },
       created(){
-        this.user = user          
+        this.user = user
+        socket.on('nuevaOrden-'+user._id, (orden)=>{
+            //alert('Un usario se ha conectado a la app.');
+            console.log(orden)
+        })
+  
+  
+
         document.addEventListener('DOMContentLoaded', ()=> {
 			// Botones flotantes
 			let fixedActionBtn = M.FloatingActionButton.init(document.querySelectorAll('.fixed-action-btn'), {});
